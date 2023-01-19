@@ -3,10 +3,17 @@ import { View, Text, StyleSheet } from 'react-native'
 import Button from '../components/ui/Button'
 import IconButton from '../components/ui/IconButton'
 import { GlobalStyles } from '../constants/styles'
+import {
+  addExpense,
+  deleteExpense,
+  updateExpense,
+} from '../store/expensesSlice'
+import { useAppSelector, useAppDispatch } from '../store/hooks'
 
 function ManageExpense({ route, navigation }: any) {
   const id = route.params?.id
   const isEditing = !!id
+  const dispatch = useAppDispatch()
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -15,7 +22,7 @@ function ManageExpense({ route, navigation }: any) {
   }, [navigation, isEditing])
 
   function DeleteHandler() {
-
+    dispatch(deleteExpense({ id: id }))
     navigation.goBack()
   }
 
@@ -24,7 +31,26 @@ function ManageExpense({ route, navigation }: any) {
   }
 
   function confirmHandler() {
-
+    if (isEditing) {
+      dispatch(
+        updateExpense({
+          id,
+          description: 'string@!!!!!!!',
+          amount: 22,
+          date: new Date(),
+        })
+      )
+    } else {
+      dispatch(
+        addExpense({
+          expense: {
+            description: 'string',
+            amount: 22,
+            date: new Date(),
+          },
+        })
+      )
+    }
     navigation.goBack()
   }
 

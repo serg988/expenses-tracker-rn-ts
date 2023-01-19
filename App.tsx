@@ -14,6 +14,8 @@ const BottomTabs = createBottomTabNavigator<BottomTabNavigatorParamList>()
 
 import { Ionicons } from '@expo/vector-icons'
 import IconButton from './components/ui/IconButton'
+import { Provider } from 'react-redux'
+import store from './store/store'
 
 function ExpensesOverview() {
   return (
@@ -67,7 +69,8 @@ export default function App() {
   return (
     <>
       <StatusBar style='auto' />
-      <NavigationContainer>
+      <Provider store={store}>
+         <NavigationContainer>
         <Stack.Navigator screenOptions={{
           headerStyle: {
             backgroundColor: GlobalStyles.colors.primary500,
@@ -85,6 +88,8 @@ export default function App() {
           }}/>
         </Stack.Navigator>
       </NavigationContainer>
+      </Provider>
+     
     </>
   )
 }
