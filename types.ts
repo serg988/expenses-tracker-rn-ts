@@ -41,7 +41,7 @@ export type BottomTabNavigatorParamList = {
 // }
 
 export type Expense = {
-  id: string
+  id?: string
   description: string
   amount: number
   date: Date
