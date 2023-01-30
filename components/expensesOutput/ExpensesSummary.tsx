@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
   },
   period: {
     fontSize: 12,
-    color: GlobalStyles.colors.primary400
+    color: GlobalStyles.colors.primary500
   },
   sum:{
     fontSize: 16,

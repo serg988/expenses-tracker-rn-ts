@@ -2,26 +2,33 @@ import { useLayoutEffect } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import ExpenseForm, {
   SubmitType,
-} from '../components/manageExpense/ExpenseForm'
-import Button from '../components/ui/Button'
-import IconButton from '../components/ui/IconButton'
-import { GlobalStyles } from '../constants/styles'
+} from '../../components/manageExpense/ExpenseForm'
+import Button from '../../components/ui/Button'
+import ErrorOverlay from '../../components/ui/ErrorOverlay'
+import IconButton from '../../components/ui/IconButton'
+import LoadingOverlay from '../../components/ui/LoadingOverlay'
+import { GlobalStyles } from '../../constants/styles'
 import {
-  addExpense,
+  // addExpense,
+  addNewExpense,
   deleteExpense,
+  resetError,
   updateExpense,
-} from '../store/expensesSlice'
-import { useAppSelector, useAppDispatch } from '../store/hooks'
+} from '../../store/expensesSlice'
+import { useAppSelector, useAppDispatch } from '../../store/hooks'
+import store from '../../store/store'
+// import { storeExpense } from '../util/http'
 
 function ManageExpense({ route, navigation }: any) {
-  const id = route.params?.id
+  const id: string = route.params?.id
   const isEditing = !!id
   const dispatch = useAppDispatch()
 
   const allExpenses = useAppSelector((state) => state.expenses.expenses)
+  const loading = useAppSelector((state) => state.expenses.loading)
+  const error = useAppSelector((state) => state.expenses.error)
 
   const selectedExpense = allExpenses.find((expense) => expense.id === id)
-  
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -30,7 +37,7 @@ function ManageExpense({ route, navigation }: any) {
   }, [navigation, isEditing])
 
   function DeleteHandler() {
-    dispatch(deleteExpense({ id: id }))
+    dispatch(deleteExpense(id))
     navigation.goBack()
   }
 
@@ -42,13 +49,24 @@ function ManageExpense({ route, navigation }: any) {
     if (isEditing) {
       dispatch(updateExpense({ ...expense, id }))
     } else {
-      dispatch(
-        addExpense({
-          expense: expense,
-        })
-      )
+      dispatch(addNewExpense(expense))
+      // dispatch(
+      //   addExpense({
+      //     expense: expense,
+      //   })
+      // )
     }
     navigation.goBack()
+  }
+
+  if (loading) {
+    return <LoadingOverlay />
+  }
+
+  if (error) {
+    return (
+      <ErrorOverlay message={error} onConfirm={() => dispatch(resetError())} />
+    )
   }
 
   return (

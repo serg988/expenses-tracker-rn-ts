@@ -15,7 +15,6 @@ export type BottomTabNavigatorParamList = {
   AllExpenses: undefined
 }
 
-
 // export type DetailsScreenRouteProp = RouteProp<
 //   HomeStackNavigatorParamList,
 //   'Details'
@@ -46,3 +45,18 @@ export type Expense = {
   amount: number
   date: Date
 }
+
+export type CredentialsSignup = {
+  email: string
+  confirmEmail: string
+  password: string
+  confirmPassword: string
+}
+
+export type CredentialsLogin = {
+  email: string
+  password: string
+}
+
+
+// https://max-rn-app-default-rtdb.europe-west1.firebasedatabase.app/

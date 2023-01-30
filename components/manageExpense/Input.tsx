@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, TextInput, StyleProp } from 'react-native'
 import { GlobalStyles } from '../../constants/styles'
 
+
 interface Props {
   label: string
   invalid: boolean
@@ -24,6 +25,7 @@ function Input({ label, textInputConfig, invalid, style }: Props) {
 
   return (
     <View style={[styles.inputContainer, style]}>
+
       <Text style={[styles.label, invalid && styles.invalidLabel]}>
         {label}
       </Text>

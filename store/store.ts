@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
+import authSlice from './authSlice'
 
 import expensesSlice from './expensesSlice'
 
 const store = configureStore({
   reducer: {
     expenses: expensesSlice,
+    auth: authSlice
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
