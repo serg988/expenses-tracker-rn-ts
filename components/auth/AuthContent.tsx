@@ -9,7 +9,15 @@ import { CredentialsSignup, CredentialsLogin } from '../../types';
 
 interface Props {
   isLogin: boolean
-  onAuthenticate: ({email, password}:{email: string, password: string}) => void
+  onAuthenticate: ({
+    email,
+    password,
+    rememberCredentials,
+  }: {
+    email: string
+    password: string
+    rememberCredentials: boolean
+  }) => void
 }
 
 function AuthContent({ isLogin, onAuthenticate }: Props) {
@@ -32,7 +40,7 @@ function AuthContent({ isLogin, onAuthenticate }: Props) {
   }
 
   function submitHandler(credentials: CredentialsSignup) {
-    let { email, confirmEmail, password, confirmPassword } = credentials
+    let { email, confirmEmail, password, confirmPassword, rememberCredentials } = credentials
 
     email = email.trim()
     password = password.trim()
@@ -56,7 +64,7 @@ function AuthContent({ isLogin, onAuthenticate }: Props) {
       })
       return
     }
-    onAuthenticate({ email, password })
+    onAuthenticate({ email, password, rememberCredentials })
   }
 
   return (

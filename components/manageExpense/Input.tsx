@@ -1,5 +1,10 @@
 import { View, Text, StyleSheet, TextInput, StyleProp } from 'react-native'
 import { GlobalStyles } from '../../constants/styles'
+import DateTimePicker from '@react-native-community/datetimepicker'
+import RNDateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
+
+// DateTimePickerAndroid.open(params: AndroidNativeProps)
+// DateTimePickerAndroid.dismiss(mode: AndroidNativeProps['mode'])
 
 
 interface Props {

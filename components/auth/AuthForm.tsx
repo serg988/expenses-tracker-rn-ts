@@ -1,10 +1,17 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
+
+import { GlobalStyles } from '../../constants/styles'
+
+import BouncyCheckbox from 'react-native-bouncy-checkbox'
 
 import Button from '../ui/Button'
 import Input from './Input'
 
 import type { CredentialsSignup } from '../../types'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
+import { setRemember } from '../../store/authSlice'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 interface Props {
   isLogin: boolean
@@ -24,6 +31,12 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }: Props) {
   const [enteredConfirmEmail, setEnteredConfirmEmail] = useState('')
   const [enteredPassword, setEnteredPassword] = useState('')
   const [enteredConfirmPassword, setEnteredConfirmPassword] = useState('')
+  const [rem, setRem] = useState(true)
+
+  // const remember = useAppSelector((state) => state.auth.remember)
+  const remember = async () => await AsyncStorage.getItem('remember')
+
+  const dispatch = useAppDispatch()
 
   const {
     email: emailIsInvalid,
@@ -55,47 +68,65 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }: Props) {
       confirmEmail: enteredConfirmEmail,
       password: enteredPassword,
       confirmPassword: enteredConfirmPassword,
+      rememberCredentials: rem,
     })
   }
 
   return (
     <View style={styles.form}>
       <View>
-        <Input
-          label='Email Address'
-          onUpdateValue={updateInputValueHandler.bind(null, 'email')}
-          value={enteredEmail}
-          keyboardType='email-address'
-          isInvalid={emailIsInvalid}
-        />
-        {!isLogin && (
+        <View style={styles.inputs}>
           <Input
-            label='Confirm Email Address'
-            onUpdateValue={updateInputValueHandler.bind(null, 'confirmEmail')}
-            value={enteredConfirmEmail}
+            label='Email Address'
+            onUpdateValue={updateInputValueHandler.bind(null, 'email')}
+            value={enteredEmail}
             keyboardType='email-address'
-            isInvalid={emailsDontMatch}
+            isInvalid={emailIsInvalid}
           />
-        )}
-        <Input
-          label='Password'
-          onUpdateValue={updateInputValueHandler.bind(null, 'password')}
-          secure
-          value={enteredPassword}
-          isInvalid={passwordIsInvalid}
-        />
-        {!isLogin && (
+          {!isLogin && (
+            <Input
+              label='Confirm Email Address'
+              onUpdateValue={updateInputValueHandler.bind(null, 'confirmEmail')}
+              value={enteredConfirmEmail}
+              keyboardType='email-address'
+              isInvalid={emailsDontMatch}
+            />
+          )}
           <Input
-            label='Confirm Password'
-            onUpdateValue={updateInputValueHandler.bind(
-              null,
-              'confirmPassword'
-            )}
+            label='Password'
+            onUpdateValue={updateInputValueHandler.bind(null, 'password')}
             secure
-            value={enteredConfirmPassword}
-            isInvalid={passwordsDontMatch}
+            value={enteredPassword}
+            isInvalid={passwordIsInvalid}
           />
-        )}
+          {!isLogin && (
+            <Input
+              label='Confirm Password'
+              onUpdateValue={updateInputValueHandler.bind(
+                null,
+                'confirmPassword'
+              )}
+              secure
+              value={enteredConfirmPassword}
+              isInvalid={passwordsDontMatch}
+            />
+          )}
+        </View>
+
+        <BouncyCheckbox
+          size={18}
+          fillColor={GlobalStyles.colors.primary500}
+          // unfillColor='#FFFFFF'
+          text='Remember credentials?'
+          iconStyle={{ borderColor: '#a774ea' }}
+          innerIconStyle={{ borderWidth: 2 }}
+          textStyle={{ color: GlobalStyles.colors.primary100 }}
+          isChecked={rem}
+          onPress={(isChecked: boolean) => {
+            setRem(isChecked)
+          }}
+        />
+
         <View style={styles.buttons}>
           <Button onPress={submitHandler}>
             {isLogin ? 'Log In' : 'Sign Up'}
@@ -110,9 +141,10 @@ export default AuthForm
 
 const styles = StyleSheet.create({
   buttons: {
-    marginTop: 12,
+    marginTop: 22,
   },
-  form: {
-    
-  }
+  inputs: {
+    marginBottom: 20,
+  },
+  form: {},
 })

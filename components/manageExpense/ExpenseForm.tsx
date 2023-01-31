@@ -28,15 +28,17 @@ function ExpenseForm({
   const [input, setInput] = useState({
     amount: {
       value: defaultValues ? defaultValues.amount.toString() : '',
-      isValid: true
+      isValid: true,
     },
     description: {
       value: defaultValues ? defaultValues.description : '',
-      isValid: true
+      isValid: true,
     },
     date: {
-      value: defaultValues ? defaultValues.date.toISOString().slice(0, 10) : '',
-      isValid: true
+      value: defaultValues
+        ? defaultValues.date.toISOString().slice(0, 10)
+        : new Date().toISOString().slice(0, 10),
+      isValid: true,
     },
   })
 
@@ -146,7 +148,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: GlobalStyles.colors.error500,
     fontSize: 16,
-    margin: 8
+    margin: 8,
   },
   input: {
     flex: 1,

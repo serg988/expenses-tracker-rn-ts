@@ -51,6 +51,7 @@ export type CredentialsSignup = {
   confirmEmail: string
   password: string
   confirmPassword: string
+  rememberCredentials: boolean
 }
 
 export type CredentialsLogin = {

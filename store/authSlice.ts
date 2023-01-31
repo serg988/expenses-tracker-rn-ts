@@ -9,66 +9,129 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 type initialState = {
   token: string
+  refreshToken: string
   loading: boolean
   error?: string
+  remember: boolean
 }
 
 const initialState: initialState = {
   token: '',
+  refreshToken: '',
   loading: false,
   error: '',
+  remember: false,
 }
 
+//--------------------LOG IN-------------------------
+
 export const login = createAsyncThunk<
-  string,
-  { email: string; password: string },
+  { token: string; refreshToken: string },
+  { email: string; password: string; rememberCredentials?: boolean },
   { rejectValue: string }
->('auth/login', async function ({ email, password }, { rejectWithValue }) {
-  try {
-    const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`
-    const res = await axios.post(url, {
-      email,
-      password,
-      returnSecureToken: true,
-    })
-    const token = res.data.idToken
-    await AsyncStorage.setItem('token', token)
-    return token
-  } catch (error: any) {
-    return rejectWithValue(error.message)
+>(
+  'auth/login',
+  async function (
+    { email, password, rememberCredentials },
+    { rejectWithValue }
+  ) {
+    try {
+      const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`
+      const res = await axios.post(url, {
+        email,
+        password,
+        returnSecureToken: true,
+      })
+      const token = res.data.idToken
+      const refreshToken = res.data.refreshToken
+      await AsyncStorage.multiSet([
+        ['token', token],
+        ['refreshToken', refreshToken],
+      ])
+      if (rememberCredentials) {
+        AsyncStorage.multiSet([
+          ['email', email],
+          ['password', password],
+        ])
+      } else {
+        AsyncStorage.multiRemove(['email', 'password'])
+      }
+
+      return { token, refreshToken }
+    } catch (error: any) {
+      return rejectWithValue(error.message)
+    }
   }
-})
+)
+
+//--------------------SIGN UP-------------------------
+
 export const signup = createAsyncThunk<
-  string,
-  { email: string; password: string },
+  { token: string; refreshToken: string },
+  { email: string; password: string; rememberCredentials: boolean },
   { rejectValue: string }
->('auth/signup', async function ({ email, password }, { rejectWithValue }) {
-  try {
-    const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`
-    const res = await axios.post(url, {
-      email,
-      password,
-      returnSecureToken: true,
-    })
-    const token = res.data.idToken
-    AsyncStorage.setItem('token', token)
-    return token
-  } catch (error: any) {
-    return rejectWithValue(error.message)
+>(
+  'auth/signup',
+  async function (
+    { email, password, rememberCredentials },
+    { rejectWithValue }
+  ) {
+    try {
+      const url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`
+      const res = await axios.post(url, {
+        email,
+        password,
+        returnSecureToken: true,
+      })
+      const token = res.data.idToken
+      const refreshToken = res.data.refreshToken
+      await AsyncStorage.multiSet([
+        ['token', token],
+        ['refreshToken', refreshToken],
+      ])
+      if (rememberCredentials) {
+        AsyncStorage.multiSet([
+          ['email', email],
+          ['password', password],
+        ])
+      } else {
+        AsyncStorage.multiRemove(['email', 'password'])
+      }
+      return { token, refreshToken }
+    } catch (error: any) {
+      return rejectWithValue(error.message)
+    }
   }
-})
+)
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
+    //--------------------SET REMEMBER-------------------------
+
+    setRemember(state, action) {
+      state.remember = action.payload
+      console.log(
+        '🚀 ~ file: authSlice.ts:94 ~ setRemember ~ action.payload',
+        action.payload
+      )
+      AsyncStorage.setItem('remember', action.payload ? 'yes!' : '')
+    },
+
+    //--------------------AUTHENTICATE-------------------
+
     authenticate(state, action) {
       state.token = action.payload
     },
+
+    //--------------------LOGOUT-------------------------
+
     logout(state) {
       state.token = ''
-      AsyncStorage.removeItem('token')
+      AsyncStorage.multiRemove(['token', 'email', 'password', 'remember'])
     },
+
     resetError(state) {
       state.error = ''
     },
@@ -80,7 +143,8 @@ const authSlice = createSlice({
         state.error = ''
       })
       .addCase(login.fulfilled, (state, action) => {
-        state.token = action.payload
+        state.token = action.payload.token
+        state.refreshToken = action.payload.refreshToken
         state.loading = false
         state.error = ''
       })
@@ -93,7 +157,9 @@ const authSlice = createSlice({
         state.error = ''
       })
       .addCase(signup.fulfilled, (state, action) => {
-        state.token = action.payload
+        state.token = action.payload.token
+        state.refreshToken = action.payload.refreshToken
+        state.loading = false
         state.loading = false
         state.error = ''
       })
@@ -110,4 +176,4 @@ const authSlice = createSlice({
 })
 
 export default authSlice.reducer
-export const {authenticate, logout} = authSlice.actions
+export const { authenticate, logout, setRemember } = authSlice.actions

@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useEffect } from 'react'
 import ExpensesOutput from '../../components/expensesOutput/ExpensesOutput'
 import ErrorOverlay from '../../components/ui/ErrorOverlay'

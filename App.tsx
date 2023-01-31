@@ -23,7 +23,7 @@ import SignupScreen from './screens/auth/SignupScreen'
 import { useAppDispatch, useAppSelector } from './store/hooks'
 import { useEffect } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { authenticate } from './store/authSlice'
+import { authenticate, logout } from './store/authSlice'
 
 function AuthStack() {
   return (
@@ -41,6 +41,7 @@ function AuthStack() {
 }
 
 function ExpensesOverview() {
+  const dispatch = useAppDispatch()
   return (
     <BottomTabs.Navigator
       screenOptions={({ navigation }) => ({
@@ -58,6 +59,14 @@ function ExpensesOverview() {
             size={24}
             color={tintColor || 'white'}
             onPress={() => navigation.navigate('ManageExpense')}
+          />
+        ),
+        headerLeft: ({ tintColor }) => (
+          <IconButton
+            icon='exit'
+            size={24}
+            color={tintColor || 'white'}
+            onPress={()=>dispatch(logout())}
           />
         ),
       })}

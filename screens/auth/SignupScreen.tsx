@@ -12,12 +12,14 @@ function SignupScreen() {
   async function signupHandler({
     email,
     password,
+    rememberCredentials,
   }: {
     email: string
     password: string
+    rememberCredentials: boolean
   }) {
     try {
-      dispatch(signup({ email, password }))
+      dispatch(signup({ email, password, rememberCredentials }))
     } catch (error: any) {
       Alert.alert('Authentication failed!', error.message)
     }
