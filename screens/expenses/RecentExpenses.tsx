@@ -1,20 +1,31 @@
 import { useEffect } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native'
 import ExpensesOutput from '../../components/expensesOutput/ExpensesOutput'
 import { useAppSelector, useAppDispatch } from '../../store/hooks'
 import { fetchExpenses, resetError } from '../../store/expensesSlice'
 import { getDateMinusDays } from '../../util/date'
 import LoadingOverlay from '../../components/ui/LoadingOverlay'
 import ErrorOverlay from '../../components/ui/ErrorOverlay'
+import { getAsyncStorageData } from '../../util/auth'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
-function RecentExpenses({ navigation }: any) {
+function RecentExpenses() {
   const dispatch = useAppDispatch()
-  useEffect(() => {
-    dispatch(fetchExpenses())
-  }, [])
+
   const expenses = useAppSelector((state) => state.expenses.expenses)
   const loading = useAppSelector((state) => state.expenses.loading)
+
+  // const ttd = useAppSelector((state) => state.auth.ttd)
   const error = useAppSelector((state) => state.expenses.error)
+
+  useEffect(() => {
+    const getTtd = async () => {
+      const ttd = await AsyncStorage.getItem('ttd')
+      console.log((ttd - +new Date().getTime()) / 1000 / 60)
+      dispatch(fetchExpenses())
+    }
+    getTtd()
+  }, [])
 
   const recentExpenses = expenses.filter((expense) => {
     const today = new Date()

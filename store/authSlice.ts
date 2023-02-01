@@ -9,6 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 type initialState = {
   token: string
+  ttd: number // time at which token expires
   refreshToken: string
   loading: boolean
   error?: string
@@ -17,6 +18,7 @@ type initialState = {
 
 const initialState: initialState = {
   token: '',
+  ttd: 0,
   refreshToken: '',
   loading: false,
   error: '',
@@ -26,7 +28,7 @@ const initialState: initialState = {
 //--------------------LOG IN-------------------------
 
 export const login = createAsyncThunk<
-  { token: string; refreshToken: string },
+  { token: string; refreshToken: string; ttd: number },
   { email: string; password: string; rememberCredentials?: boolean },
   { rejectValue: string }
 >(
@@ -44,6 +46,9 @@ export const login = createAsyncThunk<
       })
       const token = res.data.idToken
       const refreshToken = res.data.refreshToken
+      const expiresIn = res.data.expiresIn
+      const currentTime = +new Date().getTime()
+      const ttd = currentTime + +expiresIn * 1000
       await AsyncStorage.multiSet([
         ['token', token],
         ['refreshToken', refreshToken],
@@ -52,12 +57,13 @@ export const login = createAsyncThunk<
         AsyncStorage.multiSet([
           ['email', email],
           ['password', password],
+          ['ttd', ttd.toString()],
         ])
       } else {
         AsyncStorage.multiRemove(['email', 'password'])
       }
 
-      return { token, refreshToken }
+      return { token, refreshToken, ttd }
     } catch (error: any) {
       return rejectWithValue(error.message)
     }
@@ -145,7 +151,7 @@ const authSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.token = action.payload.token
         state.refreshToken = action.payload.refreshToken
-        state.loading = false
+        ;(state.ttd = action.payload.ttd), (state.loading = false)
         state.error = ''
       })
       .addCase(login.rejected, (state, action) => {
