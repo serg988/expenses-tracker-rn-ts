@@ -12,7 +12,7 @@ function ExpenseItem({ expense }: Props) {
   const navigation = useNavigation<any>()
 
   function pressHandler() {
-    navigation.navigate('ManageExpense', {id: expense.id})
+    navigation.navigate('ManageExpense', { id: expense.id })
   }
 
   return (
@@ -21,14 +21,14 @@ function ExpenseItem({ expense }: Props) {
       style={({ pressed }) => pressed && styles.pressed}
     >
       <View style={styles.item}>
-        <View>
+        <View style={styles.descriptionContainer}>
           <Text style={[styles.textBase, styles.description]}>
             {expense.description}
           </Text>
           <Text style={styles.textBase}>{getFormattedDate(expense.date)}</Text>
         </View>
         <View style={styles.amountContainer}>
-          <Text style={styles.amountText}>{expense.amount.toFixed(2)}</Text>
+          <Text style={styles.amountText}>{expense.amount.toFixed(0)}</Text>
         </View>
       </View>
     </Pressable>
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     opacity: 0.75,
   },
   item: {
-    padding: 12,
+    padding: 8,
     marginVertical: 8,
     backgroundColor: GlobalStyles.colors.primary500,
     flexDirection: 'row',
@@ -57,19 +57,23 @@ const styles = StyleSheet.create({
   textBase: {
     color: GlobalStyles.colors.primary50,
   },
+  descriptionContainer: {
+    flex: 25,
+  },
   description: {
     fontSize: 16,
     marginBottom: 4,
     fontWeight: 'bold',
   },
   amountContainer: {
+    flex: 1,
     paddingHorizontal: 12,
     paddingVertical: 4,
     backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 4,
-    minWidth: 80,
+    minWidth: 40,
   },
   amountText: {
     color: GlobalStyles.colors.primary800,

@@ -66,7 +66,7 @@ function ExpensesOverview() {
             icon='exit'
             size={24}
             color={tintColor || 'white'}
-            onPress={()=>dispatch(logout())}
+            onPress={() => dispatch(logout())}
           />
         ),
       })}
@@ -132,7 +132,6 @@ function Root() {
       if (storedToken) {
         dispatch(authenticate(storedToken))
       }
-
     }
     getToken()
   }, [])

@@ -109,7 +109,7 @@ function ExpenseForm({
         label='Description'
         invalid={!input.description.isValid}
         textInputConfig={{
-          multiline: true,
+          // multiline: true,
           onChangeText: inputHandler.bind(null, 'description'),
           value: input.description.value,
         }}
