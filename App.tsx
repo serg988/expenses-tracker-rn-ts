@@ -1,4 +1,8 @@
-import { NavigationContainer } from '@react-navigation/native'
+import {
+  NavigationContainer,
+  useNavigationContainerRef,
+  useNavigation,
+} from '@react-navigation/native'
 import { StatusBar } from 'expo-status-bar'
 import { View, Text } from 'react-native'
 
@@ -21,7 +25,7 @@ import store from './store/store'
 import LoginScreen from './screens/auth/LoginScreen'
 import SignupScreen from './screens/auth/SignupScreen'
 import { useAppDispatch, useAppSelector } from './store/hooks'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { authenticate, logout } from './store/authSlice'
 
@@ -34,7 +38,7 @@ function AuthStack() {
         contentStyle: { backgroundColor: GlobalStyles.colors.primary100 },
       }}
     >
-      <Stack.Screen name='Login' component={LoginScreen} />
+      <Stack.Screen name='LoginScreen' component={LoginScreen} />
       <Stack.Screen name='Signup' component={SignupScreen} />
     </Stack.Navigator>
   )
@@ -123,9 +127,37 @@ function MainNavigation() {
   )
 }
 
+function AboveRoot() {
+  return <Root />
+}
+
 function Root() {
   const token = useAppSelector((state) => state.auth.token)
+  const ttd = useAppSelector((state) => state.auth.ttd)
+
   const dispatch = useAppDispatch()
+
+  const [timer, setTimer] = useState(0)
+  const [relogin, setRelogin] = useState(false)
+  const [ttl, setTtl] = useState(3600)
+  //====================================++++++++++++++++++++++++++++++++++++++
+  const limit = 8
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimer((prev) => (prev += 1))
+    }, 1000)
+    return () => {
+      clearInterval(interval)
+    }
+  }, [])
+
+  useEffect(() => {
+    const ttl = (ttd - +new Date().getTime()) / 1000
+    console.log("🚀 ~ file: App.tsx:157 ~ useEffect ~ ttl", ttl)
+    setTtl(ttl)
+  }, [timer])
+
   useEffect(() => {
     async function getToken() {
       const storedToken = await AsyncStorage.getItem('token')
@@ -136,20 +168,18 @@ function Root() {
     getToken()
   }, [])
 
-  return (
-    <NavigationContainer>
-      {!token ? <AuthStack /> : <MainNavigation />}
-    </NavigationContainer>
-  )
+  return <>{!token || ttl < limit ? <AuthStack /> : <MainNavigation />}</>
 }
 
 export default function App() {
+  const navigationRef = useNavigationContainerRef()
   return (
     <>
       <StatusBar style='auto' />
-
       <Provider store={store}>
-        <Root />
+        <NavigationContainer ref={navigationRef}>
+          <AboveRoot />
+        </NavigationContainer>
       </Provider>
     </>
   )

@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { StyleSheet } from 'react-native'
 import ExpensesOutput from '../../components/expensesOutput/ExpensesOutput'
 import { useAppSelector, useAppDispatch } from '../../store/hooks'
@@ -9,7 +9,8 @@ import ErrorOverlay from '../../components/ui/ErrorOverlay'
 import { getAsyncStorageData } from '../../util/auth'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-function RecentExpenses() {
+function RecentExpenses({ navigation }: any) {
+
   const dispatch = useAppDispatch()
 
   const expenses = useAppSelector((state) => state.expenses.expenses)
@@ -18,13 +19,11 @@ function RecentExpenses() {
   // const ttd = useAppSelector((state) => state.auth.ttd)
   const error = useAppSelector((state) => state.expenses.error)
 
+ 
+
+
   useEffect(() => {
-    const getTtd = async () => {
-      const ttd = await AsyncStorage.getItem('ttd')
-      console.log((ttd - +new Date().getTime()) / 1000 / 60)
-      dispatch(fetchExpenses())
-    }
-    getTtd()
+    dispatch(fetchExpenses())
   }, [])
 
   const recentExpenses = expenses.filter((expense) => {

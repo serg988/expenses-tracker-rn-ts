@@ -10,3 +10,4 @@ export const getAsyncStorageData = async (keys: string[]) => {
     console.log(error)
   }
 }
+

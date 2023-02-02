@@ -10,7 +10,7 @@ import Input from './Input'
 
 import type { CredentialsSignup } from '../../types'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
-import { setRemember } from '../../store/authSlice'
+
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 interface Props {

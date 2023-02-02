@@ -6,10 +6,11 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 //@ts-ignore
 import { API_KEY } from 'react-native-dotenv'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { getAsyncStorageData } from '../util/auth'
 
 type initialState = {
   token: string
-  ttd: number // time at which token expires
+  ttd: number // number of sec token lives
   refreshToken: string
   loading: boolean
   error?: string
@@ -60,10 +61,42 @@ export const login = createAsyncThunk<
           ['ttd', ttd.toString()],
         ])
       } else {
-        AsyncStorage.multiRemove(['email', 'password'])
+        // AsyncStorage.multiRemove(['email', 'password'])
       }
 
       return { token, refreshToken, ttd }
+    } catch (error: any) {
+      return rejectWithValue(error.message)
+    }
+  }
+)
+
+//--------------------STORED LOG IN-------------------------
+
+export const loginStored = createAsyncThunk<
+  { token: string; refreshToken: string; ttd: number },
+  { email: string; password: string },
+  { rejectValue: string }
+>(
+  'auth/loginStored',
+  async function ({ email, password }, { rejectWithValue }) {
+    try {
+      const url = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${API_KEY}`
+      const res = await axios.post(url, {
+        email,
+        password,
+        returnSecureToken: true,
+      })
+      const token = res.data.idToken
+      const refreshToken = res.data.refreshToken
+      const expiresIn = res.data.expiresIn
+      const currentTime = +new Date().getTime()
+      const ttd = currentTime + +expiresIn * 1000
+      await AsyncStorage.multiSet([
+        ['token', token],
+        ['refreshToken', refreshToken],
+      ])
+      return { token, refreshToken, ttd}
     } catch (error: any) {
       return rejectWithValue(error.message)
     }
@@ -109,22 +142,11 @@ export const signup = createAsyncThunk<
     }
   }
 )
-
+//<+><-><+><-><+><-><+><-><+><-><+><-><+><-><+><-><+><-><+><-><+><-><+><->
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    //--------------------SET REMEMBER-------------------------
-
-    setRemember(state, action) {
-      state.remember = action.payload
-      console.log(
-        '🚀 ~ file: authSlice.ts:94 ~ setRemember ~ action.payload',
-        action.payload
-      )
-      AsyncStorage.setItem('remember', action.payload ? 'yes!' : '')
-    },
-
     //--------------------AUTHENTICATE-------------------
 
     authenticate(state, action) {
@@ -138,10 +160,18 @@ const authSlice = createSlice({
       AsyncStorage.multiRemove(['token', 'email', 'password', 'remember'])
     },
 
+    //--------------------DELETE TOKEN-------------------------
+
+    deleteToken(state) {
+      state.token = ''
+      // state.ttd = 3600
+    },
+
     resetError(state) {
       state.error = ''
     },
   },
+  //<+><-><+><-><+><-><+><-><+><-><+><-><+><-><+><-><+><-><+><-><+><-><+><->
   extraReducers: (builder) => {
     builder
       .addCase(login.pending, (state) => {
@@ -151,10 +181,26 @@ const authSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.token = action.payload.token
         state.refreshToken = action.payload.refreshToken
-        ;(state.ttd = action.payload.ttd), (state.loading = false)
+        state.ttd = action.payload.ttd
+        state.loading = false
         state.error = ''
       })
       .addCase(login.rejected, (state, action) => {
+        state.error = action.payload
+        state.loading = false
+      })
+      .addCase(loginStored.pending, (state) => {
+        state.loading = true
+        state.error = ''
+      })
+      .addCase(loginStored.fulfilled, (state, action) => {
+        state.token = action.payload.token
+        state.refreshToken = action.payload.refreshToken
+        state.ttd = action.payload.ttd
+        state.loading = false
+        state.error = ''
+      })
+      .addCase(loginStored.rejected, (state, action) => {
         state.error = action.payload
         state.loading = false
       })
@@ -182,4 +228,4 @@ const authSlice = createSlice({
 })
 
 export default authSlice.reducer
-export const { authenticate, logout, setRemember } = authSlice.actions
+export const { authenticate, logout, deleteToken } = authSlice.actions
