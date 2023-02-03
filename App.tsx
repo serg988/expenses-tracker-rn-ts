@@ -1,18 +1,24 @@
 import 'react-native-gesture-handler'
 import {
   NavigationContainer,
+  useNavigation,
   useNavigationContainerRef,
 } from '@react-navigation/native'
 import { StatusBar } from 'expo-status-bar'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import { createDrawerNavigator } from '@react-navigation/drawer'
+import {
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItem,
+  DrawerItemList,
+} from '@react-navigation/drawer'
 import ManageExpense from './screens/expenses/ManageExpense'
 import RecentExpenses from './screens/expenses/RecentExpenses'
 import AllExpenses from './screens/expenses/AllExpenses'
 import { BottomTabNavigatorParamList, RootStackParamList } from './types'
-import { GlobalStyles } from './constants/styles'
+import { COLORS } from './constants/styles'
 
 import { Ionicons } from '@expo/vector-icons'
 import IconButton from './components/ui/IconButton'
@@ -25,32 +31,89 @@ import { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { authenticate, logout } from './store/authSlice'
 import SettingsScreen from './screens/SettingsScreen'
+import Logout from './screens/auth/Logout'
 
 const Stack = createNativeStackNavigator<any>()
 const BottomTabs = createBottomTabNavigator<BottomTabNavigatorParamList>()
 const Drawer = createDrawerNavigator<any>()
 
 export function DrawerNavigation() {
+  const navigation = useNavigation()
   return (
     <Drawer.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: GlobalStyles.colors.primary500,
+          backgroundColor: COLORS().primary500,
         },
         headerTintColor: '#fff',
         sceneContainerStyle: {
-          backgroundColor: GlobalStyles.colors.primary500,
+          backgroundColor: COLORS().primary500,
         },
         drawerContentStyle: {
-          backgroundColor: GlobalStyles.colors.primary500,
+          backgroundColor: COLORS().primary500,
         },
         drawerInactiveTintColor: '#fff',
-        drawerActiveTintColor: GlobalStyles.colors.primary50,
-        drawerActiveBackgroundColor: GlobalStyles.colors.primary500,
+        drawerActiveTintColor: COLORS().primary50,
+        drawerActiveBackgroundColor: COLORS().primary500,
       }}
+      // drawerContent={(props) => {
+      //   return (
+      //     <DrawerContentScrollView {...props}>
+      //       <DrawerItemList {...props}
+
+      //       />
+      //       <DrawerItem
+      //         label='Logout'
+      //         onPress={() => dispatch(logout())}
+
+      //       />
+      //     </DrawerContentScrollView>
+      //   )
+      // }}
     >
-      <Drawer.Screen name='Expenses Overview' component={MainNavigation} />
-      <Drawer.Screen name='Settings' component={SettingsScreen} />
+      <Drawer.Screen
+        name='Expenses Overview'
+        component={MainNavigation}
+        options={{
+          headerShown: false,
+          title: 'All Expenses',
+          drawerIcon: ({ focused, size }) => (
+            <Ionicons
+              name='cash'
+              size={size}
+              color={focused ? COLORS().accent500 : '#ccc'}
+            />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name='Settings'
+        component={SettingsScreen}
+        options={{
+          title: 'Settings',
+          drawerIcon: ({ focused, size }) => (
+            <Ionicons
+              name='settings'
+              size={size}
+              color={focused ? COLORS().accent500 : '#ccc'}
+            />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name='Logout'
+        component={Logout}
+        options={{
+          title: 'Logout',
+          drawerIcon: ({ focused, size }) => (
+            <Ionicons
+              name='exit'
+              size={size}
+              color={focused ? COLORS().accent500 : '#ccc'}
+            />
+          ),
+        }}
+      />
     </Drawer.Navigator>
   )
 }
@@ -61,12 +124,12 @@ function AuthStack() {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerStyle: { backgroundColor: GlobalStyles.colors.primary500 },
+        headerStyle: { backgroundColor: COLORS().primary500 },
         headerTintColor: 'white',
-        contentStyle: { backgroundColor: GlobalStyles.colors.primary100 },
+        contentStyle: { backgroundColor: COLORS().primary100 },
       }}
     >
-      <Stack.Screen name='LoginScreen' component={LoginScreen} />
+      <Stack.Screen name='Login' component={LoginScreen} />
       <Stack.Screen name='Signup' component={SignupScreen} />
     </Stack.Navigator>
   )
@@ -79,15 +142,15 @@ function ExpensesOverview() {
   return (
     <BottomTabs.Navigator
       screenOptions={({ navigation }) => ({
-        headerShown: false,
+        headerShown: true,
         headerStyle: {
-          backgroundColor: GlobalStyles.colors.primary500,
+          backgroundColor: COLORS().primary500,
         },
         headerTintColor: '#fff',
         tabBarStyle: {
-          backgroundColor: GlobalStyles.colors.primary500,
+          backgroundColor: COLORS().primary500,
         },
-        tabBarActiveTintColor: GlobalStyles.colors.accent500,
+        tabBarActiveTintColor: COLORS().accent500,
         headerRight: ({ tintColor }) => (
           <IconButton
             icon='add'
@@ -98,10 +161,10 @@ function ExpensesOverview() {
         ),
         headerLeft: ({ tintColor }) => (
           <IconButton
-            icon='exit'
+            icon='menu'
             size={24}
             color={tintColor || 'white'}
-            onPress={() => dispatch(logout())}
+            onPress={() => navigation.openDrawer()}
           />
         ),
       })}
@@ -135,11 +198,12 @@ function ExpensesOverview() {
 //------------------MAIN NAVIGATOR STACK-------------------------------------
 
 function MainNavigation() {
+  const navigation = useNavigation()
   return (
     <Stack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: GlobalStyles.colors.primary500,
+          backgroundColor: COLORS().primary500,
         },
         headerTintColor: '#fff',
       }}
@@ -170,7 +234,7 @@ function Root() {
   useEffect(() => {
     const interval = setInterval(() => {
       setTimer((prev) => (prev += 1))
-    }, 8000)
+    }, 3000)
     return () => {
       clearInterval(interval)
     }
@@ -178,7 +242,7 @@ function Root() {
 
   useEffect(() => {
     const ttl = (ttd - +new Date().getTime()) / 1000
-    console.log('🚀 ~ file: App.tsx:157 ~ useEffect ~ ttl', ttl)
+    // console.log('🚀 ~ file: App.tsx:157 ~ useEffect ~ ttl', ttl)
     setTtl(ttl)
   }, [timer])
 

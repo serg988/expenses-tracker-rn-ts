@@ -1,10 +1,10 @@
 import { View, Text, StyleSheet } from 'react-native'
-import { GlobalStyles } from '../../constants/styles'
+import { COLORS } from '../../constants/styles'
 import Button from './Button'
 
-interface Props{
+interface Props {
   message: string
-  onConfirm:()=>void
+  onConfirm: () => void
 }
 
 function ErrorOverlay({ message, onConfirm }: Props) {
@@ -19,22 +19,21 @@ function ErrorOverlay({ message, onConfirm }: Props) {
 
 export default ErrorOverlay
 
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     padding: 24,
-    backgroundColor: GlobalStyles.colors.primary700,
+    backgroundColor: COLORS().primary700,
   },
   text: {
     color: '#fff',
     textAlign: 'center',
-    marginBottom: 8
+    marginBottom: 8,
   },
   title: {
     fontWeight: 'bold',
-    fontSize: 20
-  }
+    fontSize: 20,
+  },
 })

@@ -1,12 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import authSlice from './authSlice'
-
 import expensesSlice from './expensesSlice'
+import settingsSlice from './settingsSlice'
 
 const store = configureStore({
   reducer: {
     expenses: expensesSlice,
-    auth: authSlice
+    auth: authSlice,
+    settings: settingsSlice
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

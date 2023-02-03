@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native'
-import { GlobalStyles } from '../../constants/styles'
+import { COLORS } from '../../constants/styles'
 import { Expense } from '../../types'
 import ExpensesList from './ExpensesList'
 import ExpensesSummary from './ExpensesSummary'
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingTop: 24,
     paddingBottom: 0,
-    backgroundColor: GlobalStyles.colors.primary700,
+    backgroundColor: COLORS().primary700,
   },
   fallbackText: {
     color: '#fff',

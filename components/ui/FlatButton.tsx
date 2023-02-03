@@ -1,6 +1,6 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native'
 
-import { GlobalStyles } from '../../constants/styles';
+import { COLORS } from '../../constants/styles'
 
 interface Props {
   children: string
@@ -17,10 +17,10 @@ function FlatButton({ children, onPress }: Props) {
         <Text style={styles.buttonText}>{children}</Text>
       </View>
     </Pressable>
-  );
+  )
 }
 
-export default FlatButton;
+export default FlatButton
 
 const styles = StyleSheet.create({
   button: {
@@ -32,6 +32,6 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     textAlign: 'center',
-    color: GlobalStyles.colors.primary100,
+    color: COLORS().primary100,
   },
-});
+})

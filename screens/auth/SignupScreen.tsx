@@ -1,4 +1,3 @@
-import { useState, useContext } from 'react'
 import { Alert } from 'react-native'
 import AuthContent from '../../components/auth/AuthContent'
 import LoadingOverlay from '../../components/ui/LoadingOverlay'

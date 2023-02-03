@@ -7,7 +7,7 @@ import Button from '../../components/ui/Button'
 import ErrorOverlay from '../../components/ui/ErrorOverlay'
 import IconButton from '../../components/ui/IconButton'
 import LoadingOverlay from '../../components/ui/LoadingOverlay'
-import { GlobalStyles } from '../../constants/styles'
+import { COLORS } from '../../constants/styles'
 import {
   // addExpense,
   addNewExpense,
@@ -82,7 +82,7 @@ function ManageExpense({ route, navigation }: any) {
         <View style={styles.deleteContainer}>
           <IconButton
             icon='trash'
-            color={GlobalStyles.colors.error500}
+            color={COLORS().error500}
             size={36}
             onPress={DeleteHandler}
           />
@@ -98,13 +98,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 24,
-    backgroundColor: GlobalStyles.colors.primary800,
+    backgroundColor: COLORS().primary800,
   },
 
   deleteContainer: {
     marginTop: 16,
     paddingTop: 8,
-    borderTopColor: GlobalStyles.colors.primary200,
+    borderTopColor: COLORS().primary200,
     borderTopWidth: 2,
     alignItems: 'center',
   },

@@ -1,11 +1,8 @@
 import { View, Text, StyleSheet, TextInput, StyleProp } from 'react-native'
-import { GlobalStyles } from '../../constants/styles'
-import DateTimePicker from '@react-native-community/datetimepicker'
-import RNDateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
+import { COLORS } from '../../constants/styles'
 
 // DateTimePickerAndroid.open(params: AndroidNativeProps)
 // DateTimePickerAndroid.dismiss(mode: AndroidNativeProps['mode'])
-
 
 interface Props {
   label: string
@@ -30,7 +27,6 @@ function Input({ label, textInputConfig, invalid, style }: Props) {
 
   return (
     <View style={[styles.inputContainer, style]}>
-
       <Text style={[styles.label, invalid && styles.invalidLabel]}>
         {label}
       </Text>
@@ -51,24 +47,24 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 12,
-    color: GlobalStyles.colors.primary100,
+    color: COLORS().primary100,
     marginBottom: 4,
   },
   input: {
-    backgroundColor: GlobalStyles.colors.primary100,
+    backgroundColor: COLORS().primary100,
     padding: 6,
     borderRadius: 6,
     fontSize: 18,
-    color: GlobalStyles.colors.primary700,
+    color: COLORS().primary700,
   },
   inputMultiline: {
     minHeight: 100,
     textAlignVertical: 'top',
   },
   invalidLabel: {
-    color: GlobalStyles.colors.error500,
+    color: COLORS().error500,
   },
   invalidInput: {
-    backgroundColor: GlobalStyles.colors.error50,
+    backgroundColor: COLORS().error50,
   },
 })

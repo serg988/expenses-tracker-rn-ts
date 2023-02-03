@@ -1,5 +1,5 @@
 import { View, Text, StyleSheet, Pressable } from 'react-native'
-import { GlobalStyles } from '../../constants/styles'
+import { COLORS } from '../../constants/styles'
 
 interface Props {
   children: string
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 4,
     padding: 8,
-    backgroundColor: GlobalStyles.colors.primary500,
+    backgroundColor: COLORS().primary500,
   },
   flat: {
     backgroundColor: 'transparent',
@@ -41,11 +41,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   flatText: {
-    color: GlobalStyles.colors.primary200,
+    color: COLORS().primary200,
   },
   pressed: {
     opacity: 0.75,
-    backgroundColor: GlobalStyles.colors.primary100,
+    backgroundColor: COLORS().primary100,
     borderRadius: 4,
   },
 })

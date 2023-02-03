@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
 import { View, Text, StyleSheet, Pressable } from 'react-native'
-import { GlobalStyles } from '../../constants/styles'
+import { COLORS } from '../../constants/styles'
 import { Expense } from '../../types'
 import { getFormattedDate } from '../../util/date'
 
@@ -44,18 +44,18 @@ const styles = StyleSheet.create({
   item: {
     padding: 8,
     marginVertical: 8,
-    backgroundColor: GlobalStyles.colors.primary500,
+    backgroundColor: COLORS().primary500,
     flexDirection: 'row',
     justifyContent: 'space-between',
     borderRadius: 6,
     elevation: 3,
-    shadowColor: GlobalStyles.colors.gray500,
+    shadowColor: COLORS().gray500,
     shadowRadius: 4,
     shadowOffset: { width: 1, height: 1 },
     shadowOpacity: 0.4,
   },
   textBase: {
-    color: GlobalStyles.colors.primary50,
+    color: COLORS().primary50,
   },
   descriptionContainer: {
     flex: 25,
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     minWidth: 40,
   },
   amountText: {
-    color: GlobalStyles.colors.primary800,
+    color: COLORS().primary800,
     fontWeight: 'bold',
   },
 })

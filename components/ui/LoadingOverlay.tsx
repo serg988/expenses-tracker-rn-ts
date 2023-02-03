@@ -1,5 +1,5 @@
 import { View, ActivityIndicator, Text, StyleSheet } from 'react-native'
-import { GlobalStyles } from '../../constants/styles'
+import { COLORS} from '../../constants/styles'
 
 interface Props {
   message?: string
@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     padding: 24,
-    backgroundColor: GlobalStyles.colors.primary700,
+    backgroundColor: COLORS().primary700,
   },
   message: { fontSize: 16, marginBottom: 12 },
 })

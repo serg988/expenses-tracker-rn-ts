@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { Alert, StyleSheet, View, Text } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useState } from 'react'
+import { Alert, StyleSheet, View, Text } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 
-import FlatButton from '../ui/FlatButton';
-import AuthForm from './AuthForm';
-import { GlobalStyles } from '../../constants/styles';
-import { CredentialsSignup, CredentialsLogin } from '../../types';
+import FlatButton from '../ui/FlatButton'
+import AuthForm from './AuthForm'
+import { COLORS } from '../../constants/styles'
+import { CredentialsSignup, CredentialsLogin } from '../../types'
 
 interface Props {
   isLogin: boolean
@@ -21,7 +21,6 @@ interface Props {
 }
 
 function AuthContent({ isLogin, onAuthenticate }: Props) {
-
   const navigation = useNavigation<any>()
 
   const [credentialsInvalid, setCredentialsInvalid] = useState({
@@ -29,7 +28,7 @@ function AuthContent({ isLogin, onAuthenticate }: Props) {
     password: false,
     confirmEmail: false,
     confirmPassword: false,
-  });
+  })
 
   function switchAuthModeHandler() {
     if (isLogin) {
@@ -40,7 +39,13 @@ function AuthContent({ isLogin, onAuthenticate }: Props) {
   }
 
   function submitHandler(credentials: CredentialsSignup) {
-    let { email, confirmEmail, password, confirmPassword, rememberCredentials } = credentials
+    let {
+      email,
+      confirmEmail,
+      password,
+      confirmPassword,
+      rememberCredentials,
+    } = credentials
 
     email = email.trim()
     password = password.trim()
@@ -81,10 +86,10 @@ function AuthContent({ isLogin, onAuthenticate }: Props) {
       </View>
       {/* <Text>KJHKjhkjh</Text> */}
     </View>
-  );
+  )
 }
 
-export default AuthContent;
+export default AuthContent
 
 const styles = StyleSheet.create({
   authContent: {
@@ -92,7 +97,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 32,
     padding: 16,
     borderRadius: 8,
-    backgroundColor: GlobalStyles.colors.primary800,
+    backgroundColor: COLORS().primary800,
     elevation: 2,
     shadowColor: 'black',
     shadowOffset: { width: 1, height: 1 },
@@ -102,4 +107,4 @@ const styles = StyleSheet.create({
   buttons: {
     marginTop: 8,
   },
-});
+})

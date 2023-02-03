@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Alert } from 'react-native'
 import Button from '../ui/Button'
 import Input from './Input'
 import { Expense } from '../../types'
-import { GlobalStyles } from '../../constants/styles'
+import { COLORS } from '../../constants/styles'
 
 export type SubmitType = {
   id?: string
@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     textAlign: 'center',
-    color: GlobalStyles.colors.error500,
+    color: COLORS().error500,
     fontSize: 16,
     margin: 8,
   },

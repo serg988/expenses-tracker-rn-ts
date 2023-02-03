@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { StyleSheet, View } from 'react-native'
 
-import { GlobalStyles } from '../../constants/styles'
+import { COLORS } from '../../constants/styles'
 
 import BouncyCheckbox from 'react-native-bouncy-checkbox'
 
@@ -115,12 +115,12 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }: Props) {
 
         <BouncyCheckbox
           size={18}
-          fillColor={GlobalStyles.colors.primary500}
+          fillColor={COLORS().primary500}
           // unfillColor='#FFFFFF'
           text='Remember credentials?'
           iconStyle={{ borderColor: '#a774ea' }}
           innerIconStyle={{ borderWidth: 2 }}
-          textStyle={{ color: GlobalStyles.colors.primary100 }}
+          textStyle={{ color: COLORS().primary100 }}
           isChecked={rem}
           onPress={(isChecked: boolean) => {
             setRem(isChecked)
