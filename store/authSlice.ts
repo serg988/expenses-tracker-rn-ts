@@ -10,7 +10,7 @@ import { getAsyncStorageData } from '../util/auth'
 
 type initialState = {
   token: string
-  ttd: number // number of sec token lives
+  ttd: number // time when token expires
   refreshToken: string
   loading: boolean
   error?: string

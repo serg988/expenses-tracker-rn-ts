@@ -1,6 +1,5 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useEffect, useState } from 'react'
-import { Alert, Text, View } from 'react-native'
+import { useEffect } from 'react'
+import { Alert} from 'react-native'
 import AuthContent from '../../components/auth/AuthContent'
 import LoadingOverlay from '../../components/ui/LoadingOverlay'
 import { login, loginStored } from '../../store/authSlice'

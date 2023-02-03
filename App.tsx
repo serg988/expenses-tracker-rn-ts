@@ -1,22 +1,18 @@
+import 'react-native-gesture-handler'
 import {
   NavigationContainer,
   useNavigationContainerRef,
-  useNavigation,
 } from '@react-navigation/native'
 import { StatusBar } from 'expo-status-bar'
-import { View, Text } from 'react-native'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
+import { createDrawerNavigator } from '@react-navigation/drawer'
 import ManageExpense from './screens/expenses/ManageExpense'
 import RecentExpenses from './screens/expenses/RecentExpenses'
 import AllExpenses from './screens/expenses/AllExpenses'
 import { BottomTabNavigatorParamList, RootStackParamList } from './types'
 import { GlobalStyles } from './constants/styles'
-
-const Stack = createNativeStackNavigator<any>()
-// const Stack = createNativeStackNavigator<RootStackParamList>()
-const BottomTabs = createBottomTabNavigator<BottomTabNavigatorParamList>()
 
 import { Ionicons } from '@expo/vector-icons'
 import IconButton from './components/ui/IconButton'
@@ -28,6 +24,38 @@ import { useAppDispatch, useAppSelector } from './store/hooks'
 import { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { authenticate, logout } from './store/authSlice'
+import SettingsScreen from './screens/SettingsScreen'
+
+const Stack = createNativeStackNavigator<any>()
+const BottomTabs = createBottomTabNavigator<BottomTabNavigatorParamList>()
+const Drawer = createDrawerNavigator<any>()
+
+export function DrawerNavigation() {
+  return (
+    <Drawer.Navigator
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: GlobalStyles.colors.primary500,
+        },
+        headerTintColor: '#fff',
+        sceneContainerStyle: {
+          backgroundColor: GlobalStyles.colors.primary500,
+        },
+        drawerContentStyle: {
+          backgroundColor: GlobalStyles.colors.primary500,
+        },
+        drawerInactiveTintColor: '#fff',
+        drawerActiveTintColor: GlobalStyles.colors.primary50,
+        drawerActiveBackgroundColor: GlobalStyles.colors.primary500,
+      }}
+    >
+      <Drawer.Screen name='Expenses Overview' component={MainNavigation} />
+      <Drawer.Screen name='Settings' component={SettingsScreen} />
+    </Drawer.Navigator>
+  )
+}
+
+//------------------AUTH STACK-------------------------------------
 
 function AuthStack() {
   return (
@@ -44,11 +72,14 @@ function AuthStack() {
   )
 }
 
+//------------------MAIN NAVIGATOR BOTTOM TABS-------------------------------------
+
 function ExpensesOverview() {
   const dispatch = useAppDispatch()
   return (
     <BottomTabs.Navigator
       screenOptions={({ navigation }) => ({
+        headerShown: false,
         headerStyle: {
           backgroundColor: GlobalStyles.colors.primary500,
         },
@@ -101,6 +132,8 @@ function ExpensesOverview() {
   )
 }
 
+//------------------MAIN NAVIGATOR STACK-------------------------------------
+
 function MainNavigation() {
   return (
     <Stack.Navigator
@@ -116,20 +149,12 @@ function MainNavigation() {
         component={ExpensesOverview}
         options={{ headerShown: false }}
       />
-      <Stack.Screen
-        name='ManageExpense'
-        component={ManageExpense}
-        options={{
-          presentation: 'modal',
-        }}
-      />
+      <Stack.Screen name='ManageExpense' component={ManageExpense} />
     </Stack.Navigator>
   )
 }
 
-function AboveRoot() {
-  return <Root />
-}
+//------------------ROOT CONDITIONAL RENDERING----------------------------
 
 function Root() {
   const token = useAppSelector((state) => state.auth.token)
@@ -138,15 +163,14 @@ function Root() {
   const dispatch = useAppDispatch()
 
   const [timer, setTimer] = useState(0)
-  const [relogin, setRelogin] = useState(false)
   const [ttl, setTtl] = useState(3600)
   //====================================++++++++++++++++++++++++++++++++++++++
-  const limit = 8
+  const limit = 30
 
   useEffect(() => {
     const interval = setInterval(() => {
       setTimer((prev) => (prev += 1))
-    }, 1000)
+    }, 8000)
     return () => {
       clearInterval(interval)
     }
@@ -154,7 +178,7 @@ function Root() {
 
   useEffect(() => {
     const ttl = (ttd - +new Date().getTime()) / 1000
-    console.log("🚀 ~ file: App.tsx:157 ~ useEffect ~ ttl", ttl)
+    console.log('🚀 ~ file: App.tsx:157 ~ useEffect ~ ttl', ttl)
     setTtl(ttl)
   }, [timer])
 
@@ -168,17 +192,16 @@ function Root() {
     getToken()
   }, [])
 
-  return <>{!token || ttl < limit ? <AuthStack /> : <MainNavigation />}</>
+  return <>{!token || ttl < limit ? <AuthStack /> : <DrawerNavigation />}</>
 }
 
 export default function App() {
-  const navigationRef = useNavigationContainerRef()
   return (
     <>
       <StatusBar style='auto' />
       <Provider store={store}>
-        <NavigationContainer ref={navigationRef}>
-          <AboveRoot />
+        <NavigationContainer>
+          <Root />
         </NavigationContainer>
       </Provider>
     </>
