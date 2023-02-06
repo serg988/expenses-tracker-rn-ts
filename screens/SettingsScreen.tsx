@@ -53,6 +53,7 @@ const SettingsScreen = ({ navigation }: any) => {
       >
         <RadioButton.Item color={COLORS().accent500} label='1' value={'0'} />
         <RadioButton.Item color={COLORS().accent500} label='2' value={'1'} />
+        <RadioButton.Item color={COLORS().accent500} label='3' value={'2'} />
       </RadioButton.Group>
 
       <View style={styles.separator} />

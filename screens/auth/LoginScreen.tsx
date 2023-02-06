@@ -35,12 +35,12 @@ function LoginScreen() {
     try {
       dispatch(login({ email, password, rememberCredentials }))
     } catch (error: any) {
-      Alert.alert('Authentication failed!', error.message)
+      Alert.alert('Вход не удался!', error.message)
     }
   }
 
   if (loading) {
-    return <LoadingOverlay message='Logging in...' />
+    return <LoadingOverlay message='Пытаюсь войти...' />
   }
 
   return <AuthContent isLogin onAuthenticate={signinHandler} />

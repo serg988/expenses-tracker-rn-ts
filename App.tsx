@@ -60,27 +60,13 @@ export function DrawerNavigation() {
         drawerActiveTintColor: COLORS(themeId).primary50,
         drawerActiveBackgroundColor: COLORS(themeId).primary500,
       }}
-      // drawerContent={(props) => {
-      //   return (
-      //     <DrawerContentScrollView {...props}>
-      //       <DrawerItemList {...props}
-
-      //       />
-      //       <DrawerItem
-      //         label='Logout'
-      //         onPress={() => dispatch(logout())}
-
-      //       />
-      //     </DrawerContentScrollView>
-      //   )
-      // }}
     >
       <Drawer.Screen
         name='Expenses Overview'
         component={MainNavigation}
         options={{
           headerShown: false,
-          title: 'All Expenses',
+          title: 'Все Расходы',
           drawerIcon: ({ focused, size }) => (
             <Ionicons
               name='cash'
@@ -94,7 +80,7 @@ export function DrawerNavigation() {
         name='Settings'
         component={SettingsScreen}
         options={{
-          title: 'Settings',
+          title: 'Настройки',
           drawerIcon: ({ focused, size }) => (
             <Ionicons
               name='settings'
@@ -108,7 +94,7 @@ export function DrawerNavigation() {
         name='Logout'
         component={Logout}
         options={{
-          title: 'Logout',
+          title: 'Выход',
           drawerIcon: ({ focused, size }) => (
             <Ionicons
               name='exit'
@@ -144,13 +130,11 @@ function AuthStack() {
 
 function ExpensesOverview() {
   const themeId = useTheme()
-  const dispatch = useAppDispatch()
   return (
     <BottomTabs.Navigator
       screenOptions={({ navigation }) => ({
         headerShown: true,
         headerStyle: {
-          // backgroundColor: COLORS(themeId).primary500,
           backgroundColor: COLORS(themeId).primary500,
         },
         headerTintColor: '#fff',
@@ -180,8 +164,8 @@ function ExpensesOverview() {
         name='RecentExpenses'
         component={RecentExpenses}
         options={{
-          title: 'Recent Expenses',
-          tabBarLabel: 'Recent',
+          title: 'Последние Расходы',
+          tabBarLabel: 'Последние',
           tabBarIcon: ({ color, size }) => {
             return <Ionicons name='hourglass' size={size} color={color} />
           },
@@ -191,8 +175,8 @@ function ExpensesOverview() {
         name='AllExpenses'
         component={AllExpenses}
         options={{
-          title: 'All Expenses',
-          tabBarLabel: 'All Expenses',
+          title: 'Все Расходы',
+          tabBarLabel: 'Все Расходы',
           tabBarIcon: ({ color, size }) => {
             return <Ionicons name='calendar' size={size} color={color} />
           },
@@ -206,7 +190,6 @@ function ExpensesOverview() {
 
 function MainNavigation() {
   const themeId = useTheme()
-  const navigation = useNavigation()
   return (
     <Stack.Navigator
       screenOptions={{

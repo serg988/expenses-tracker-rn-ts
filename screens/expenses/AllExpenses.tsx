@@ -28,9 +28,9 @@ function AllExpenses() {
   }
   return (
     <ExpensesOutput
-      expensesPeriod='Total'
+      expensesPeriod='Всего'
       expenses={expenses}
-      fallbackText='No expenses yet.'
+      fallbackText='Расходы не найдены.'
     />
   )
 }

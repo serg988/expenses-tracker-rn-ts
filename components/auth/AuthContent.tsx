@@ -101,7 +101,7 @@ function AuthContent({ isLogin, onAuthenticate }: Props) {
       />
       <View style={styles.buttons}>
         <FlatButton onPress={switchAuthModeHandler}>
-          {isLogin ? 'Create a new user' : 'Log in instead'}
+          {isLogin ? 'Зарегистрироваться' : 'Войти'}
         </FlatButton>
       </View>
       {/* <Text>KJHKjhkjh</Text> */}

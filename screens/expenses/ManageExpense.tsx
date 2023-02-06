@@ -34,7 +34,7 @@ function ManageExpense({ route, navigation }: any) {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: isEditing ? 'Edit Expense' : 'Add Expense',
+      title: isEditing ? 'Редактировать Расход' : 'Добавить Расход',
     })
   }, [navigation, isEditing])
 
@@ -92,7 +92,7 @@ function ManageExpense({ route, navigation }: any) {
       <ExpenseForm
         onCancel={cancelHandler}
         onSubmit={confirmHandler}
-        submitButtonLabel={isEditing ? 'Update' : 'Add'}
+        submitButtonLabel={isEditing ? 'Редактировать' : 'Добавить'}
         defaultValues={selectedExpense}
       />
 

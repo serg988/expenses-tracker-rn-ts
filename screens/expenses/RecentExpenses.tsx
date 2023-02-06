@@ -41,9 +41,9 @@ function RecentExpenses({ navigation }: any) {
 
   return (
     <ExpensesOutput
-      expensesPeriod='Last 7 days'
+      expensesPeriod='Последние 7 Дней'
       expenses={recentExpenses}
-      fallbackText='No expenses for the last 7 days.'
+      fallbackText='Расходы за последние 7 дней не найдены.'
     />
   )
 }

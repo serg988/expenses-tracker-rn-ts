@@ -79,7 +79,7 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }: Props) {
       <View>
         <View style={styles.inputs}>
           <Input
-            label='Email Address'
+            label='Email'
             onUpdateValue={updateInputValueHandler.bind(null, 'email')}
             value={enteredEmail}
             keyboardType='email-address'
@@ -87,7 +87,7 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }: Props) {
           />
           {!isLogin && (
             <Input
-              label='Confirm Email Address'
+              label='Подтвердите Email'
               onUpdateValue={updateInputValueHandler.bind(null, 'confirmEmail')}
               value={enteredConfirmEmail}
               keyboardType='email-address'
@@ -95,7 +95,7 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }: Props) {
             />
           )}
           <Input
-            label='Password'
+            label='Пароль'
             onUpdateValue={updateInputValueHandler.bind(null, 'password')}
             secure
             value={enteredPassword}
@@ -103,7 +103,7 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }: Props) {
           />
           {!isLogin && (
             <Input
-              label='Confirm Password'
+              label='Пдтвердите Пароль'
               onUpdateValue={updateInputValueHandler.bind(
                 null,
                 'confirmPassword'
@@ -119,7 +119,7 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }: Props) {
           size={18}
           fillColor={COLORS(themeId).primary500}
           // unfillColor='#FFFFFF'
-          text='Remember credentials?'
+          text='Запомнить?'
           iconStyle={{ borderColor: COLORS(themeId).primary200 }}
           innerIconStyle={{ borderWidth: 2 }}
           textStyle={{ color: COLORS(themeId).primary100 }}
@@ -131,7 +131,7 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }: Props) {
 
         <View style={styles.buttons}>
           <Button onPress={submitHandler}>
-            {isLogin ? 'Log In' : 'Sign Up'}
+            {isLogin ? 'Войти' : 'Зарегистрироваться'}
           </Button>
         </View>
       </View>

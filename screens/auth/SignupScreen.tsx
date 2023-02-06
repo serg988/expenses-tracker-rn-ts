@@ -25,7 +25,7 @@ function SignupScreen() {
   }
 
   if (loading) {
-    return <LoadingOverlay message='Loading...' />
+    return <LoadingOverlay message='Загрузка...' />
   }
 
   return <AuthContent isLogin={false} onAuthenticate={signupHandler} />

@@ -118,11 +118,11 @@ function ExpenseForm({
     !input.amount.isValid || !input.date.isValid || !input.description.isValid
   return (
     <View style={styles.form}>
-      <Text style={styles.title}>Your Expense</Text>
+      <Text style={styles.title}>Ваш Расход</Text>
       <View style={styles.inputRow}>
         <Input
           style={styles.input}
-          label='Amount'
+          label='Сумма'
           invalid={!input.amount.isValid}
           textInputConfig={{
             keyboardType: 'decimal-pad',
@@ -132,10 +132,10 @@ function ExpenseForm({
         />
         <Input
           style={styles.input}
-          label='Date'
+          label='Дата'
           invalid={!input.date.isValid}
           textInputConfig={{
-            placeholder: 'YYYY-MM-DD',
+            placeholder: 'ГГГГ-ММ-ДД',
             maxLength: 10,
             onChangeText: inputHandler.bind(null, 'date'),
             value: input.date.value,
@@ -144,7 +144,7 @@ function ExpenseForm({
       </View>
 
       <Input
-        label='Description'
+        label='Описание'
         invalid={!input.description.isValid}
         textInputConfig={{
           // multiline: true,
@@ -155,7 +155,7 @@ function ExpenseForm({
       {formIsInvalid && <Text style={styles.errorText}>Invalid inputs!</Text>}
       <View style={styles.buttons}>
         <Button style={styles.button} mode='flat' onPress={onCancel}>
-          Cancel
+          Отмена
         </Button>
         <Button style={styles.button} onPress={submitHandler}>
           {submitButtonLabel}
