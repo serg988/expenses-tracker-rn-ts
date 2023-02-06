@@ -8,10 +8,12 @@ import { Ionicons } from '@expo/vector-icons'
 
 type initialState = {
   fontSize: 'small' | 'normal' | 'large'
+  themeId: 0 | 1 
 }
 
 const initialState: initialState = {
-  fontSize: 'normal'
+  fontSize: 'normal',
+  themeId: 1
 }
 
 
@@ -22,8 +24,13 @@ const settingsSlice = createSlice({
   reducers: {
     //--------------------FONT SIZE-------------------
 
-    changeSize(state, action) {
+    setFontSize(state, action) {
       state.fontSize = action.payload
+    },
+    //--------------------SET THEME-------------------
+
+    setTheme(state, action) {
+      state.themeId = action.payload
     },
 
    
@@ -34,4 +41,4 @@ const settingsSlice = createSlice({
 )
 
 export default settingsSlice.reducer
-export const { changeSize } = settingsSlice.actions
+export const { setFontSize, setTheme } = settingsSlice.actions

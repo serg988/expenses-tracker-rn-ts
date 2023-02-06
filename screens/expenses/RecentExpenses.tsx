@@ -10,7 +10,6 @@ import { getAsyncStorageData } from '../../util/auth'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 function RecentExpenses({ navigation }: any) {
-
   const dispatch = useAppDispatch()
 
   const expenses = useAppSelector((state) => state.expenses.expenses)
@@ -18,9 +17,6 @@ function RecentExpenses({ navigation }: any) {
 
   // const ttd = useAppSelector((state) => state.auth.ttd)
   const error = useAppSelector((state) => state.expenses.error)
-
- 
-
 
   useEffect(() => {
     dispatch(fetchExpenses())
@@ -53,5 +49,3 @@ function RecentExpenses({ navigation }: any) {
 }
 
 export default RecentExpenses
-
-const styles = StyleSheet.create({})

@@ -1,4 +1,8 @@
-export const COLORS = (themeNo = 0) => {
+// import store from "../store/store"
+// const state = store.getState()
+// const themeId = state.settings.themeId
+
+export const COLORS = (themeId = 0) => {
   const COLORS = [
     {
       primary50: '#e4d9fd',
@@ -43,5 +47,5 @@ export const COLORS = (themeNo = 0) => {
       gray700: '#221c30',
     },
   ]
-  return COLORS[themeNo]
+  return COLORS[themeId]
 }

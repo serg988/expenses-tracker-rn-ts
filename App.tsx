@@ -33,28 +33,32 @@ import { authenticate, logout } from './store/authSlice'
 import SettingsScreen from './screens/SettingsScreen'
 import Logout from './screens/auth/Logout'
 
+import useColor from './hooks/useColor'
+
+
 const Stack = createNativeStackNavigator<any>()
 const BottomTabs = createBottomTabNavigator<BottomTabNavigatorParamList>()
 const Drawer = createDrawerNavigator<any>()
 
 export function DrawerNavigation() {
+  const themeId = useColor()
   const navigation = useNavigation()
   return (
     <Drawer.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: COLORS().primary500,
+          backgroundColor: COLORS(themeId).primary500,
         },
         headerTintColor: '#fff',
         sceneContainerStyle: {
-          backgroundColor: COLORS().primary500,
+          backgroundColor: COLORS(themeId).primary500,
         },
         drawerContentStyle: {
-          backgroundColor: COLORS().primary500,
+          backgroundColor: COLORS(themeId).primary500,
         },
         drawerInactiveTintColor: '#fff',
-        drawerActiveTintColor: COLORS().primary50,
-        drawerActiveBackgroundColor: COLORS().primary500,
+        drawerActiveTintColor: COLORS(themeId).primary50,
+        drawerActiveBackgroundColor: COLORS(themeId).primary500,
       }}
       // drawerContent={(props) => {
       //   return (
@@ -81,7 +85,7 @@ export function DrawerNavigation() {
             <Ionicons
               name='cash'
               size={size}
-              color={focused ? COLORS().accent500 : '#ccc'}
+              color={focused ? COLORS(themeId).accent500 : '#ccc'}
             />
           ),
         }}
@@ -95,7 +99,7 @@ export function DrawerNavigation() {
             <Ionicons
               name='settings'
               size={size}
-              color={focused ? COLORS().accent500 : '#ccc'}
+              color={focused ? COLORS(themeId).accent500 : '#ccc'}
             />
           ),
         }}
@@ -109,7 +113,7 @@ export function DrawerNavigation() {
             <Ionicons
               name='exit'
               size={size}
-              color={focused ? COLORS().accent500 : '#ccc'}
+              color={focused ? COLORS(themeId).accent500 : '#ccc'}
             />
           ),
         }}
@@ -121,12 +125,13 @@ export function DrawerNavigation() {
 //------------------AUTH STACK-------------------------------------
 
 function AuthStack() {
+  const themeId = useColor()
   return (
     <Stack.Navigator
       screenOptions={{
-        headerStyle: { backgroundColor: COLORS().primary500 },
+        headerStyle: { backgroundColor: COLORS(themeId).primary500 },
         headerTintColor: 'white',
-        contentStyle: { backgroundColor: COLORS().primary100 },
+        contentStyle: { backgroundColor: COLORS(themeId).primary100 },
       }}
     >
       <Stack.Screen name='Login' component={LoginScreen} />
@@ -138,19 +143,21 @@ function AuthStack() {
 //------------------MAIN NAVIGATOR BOTTOM TABS-------------------------------------
 
 function ExpensesOverview() {
+  const themeId = useColor()
   const dispatch = useAppDispatch()
   return (
     <BottomTabs.Navigator
       screenOptions={({ navigation }) => ({
         headerShown: true,
         headerStyle: {
-          backgroundColor: COLORS().primary500,
+          // backgroundColor: COLORS(themeId).primary500,
+          backgroundColor: COLORS(themeId).primary500,
         },
         headerTintColor: '#fff',
         tabBarStyle: {
-          backgroundColor: COLORS().primary500,
+          backgroundColor: COLORS(themeId).primary500,
         },
-        tabBarActiveTintColor: COLORS().accent500,
+        tabBarActiveTintColor: COLORS(themeId).accent500,
         headerRight: ({ tintColor }) => (
           <IconButton
             icon='add'
@@ -198,12 +205,13 @@ function ExpensesOverview() {
 //------------------MAIN NAVIGATOR STACK-------------------------------------
 
 function MainNavigation() {
+  const themeId = useColor()
   const navigation = useNavigation()
   return (
     <Stack.Navigator
       screenOptions={{
         headerStyle: {
-          backgroundColor: COLORS().primary500,
+          backgroundColor: COLORS(themeId).primary500,
         },
         headerTintColor: '#fff',
       }}

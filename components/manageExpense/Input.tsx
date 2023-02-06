@@ -1,5 +1,6 @@
 import { View, Text, StyleSheet, TextInput, StyleProp } from 'react-native'
 import { COLORS } from '../../constants/styles'
+import useColor from '../../hooks/useColor'
 
 // DateTimePickerAndroid.open(params: AndroidNativeProps)
 // DateTimePickerAndroid.dismiss(mode: AndroidNativeProps['mode'])
@@ -19,11 +20,44 @@ interface Props {
 }
 
 function Input({ label, textInputConfig, invalid, style }: Props) {
+  const themeId = useColor()
+  
+
+  const styles = StyleSheet.create({
+    inputContainer: {
+      marginVertical: 4,
+      marginHorizontal: 8,
+    },
+    label: {
+      fontSize: 12,
+      color: COLORS().primary100,
+      marginBottom: 4,
+    },
+    input: {
+      backgroundColor: COLORS(themeId).primary100,
+      padding: 6,
+      borderRadius: 6,
+      fontSize: 18,
+      color: COLORS(themeId).primary700,
+    },
+    inputMultiline: {
+      minHeight: 100,
+      textAlignVertical: 'top',
+    },
+    invalidLabel: {
+      color: COLORS(themeId).error500,
+    },
+    invalidInput: {
+      backgroundColor: COLORS(themeId).error50,
+    },
+  })
+
   const inputStyles = [styles.input]
   if (textInputConfig && textInputConfig.multiline) {
     //@ts-ignore
     inputStyles.push(styles.inputMultiline)
   }
+
 
   return (
     <View style={[styles.inputContainer, style]}>
@@ -40,31 +74,3 @@ function Input({ label, textInputConfig, invalid, style }: Props) {
 
 export default Input
 
-const styles = StyleSheet.create({
-  inputContainer: {
-    marginVertical: 4,
-    marginHorizontal: 8,
-  },
-  label: {
-    fontSize: 12,
-    color: COLORS().primary100,
-    marginBottom: 4,
-  },
-  input: {
-    backgroundColor: COLORS().primary100,
-    padding: 6,
-    borderRadius: 6,
-    fontSize: 18,
-    color: COLORS().primary700,
-  },
-  inputMultiline: {
-    minHeight: 100,
-    textAlignVertical: 'top',
-  },
-  invalidLabel: {
-    color: COLORS().error500,
-  },
-  invalidInput: {
-    backgroundColor: COLORS().error50,
-  },
-})

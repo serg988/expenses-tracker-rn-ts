@@ -8,6 +8,7 @@ import ErrorOverlay from '../../components/ui/ErrorOverlay'
 import IconButton from '../../components/ui/IconButton'
 import LoadingOverlay from '../../components/ui/LoadingOverlay'
 import { COLORS } from '../../constants/styles'
+import useColor from '../../hooks/useColor'
 import {
   // addExpense,
   addNewExpense,
@@ -20,6 +21,7 @@ import store from '../../store/store'
 // import { storeExpense } from '../util/http'
 
 function ManageExpense({ route, navigation }: any) {
+  const themeId = useColor()
   const id: string = route.params?.id
   const isEditing = !!id
   const dispatch = useAppDispatch()
@@ -69,6 +71,24 @@ function ManageExpense({ route, navigation }: any) {
     )
   }
 
+  const styles = StyleSheet.create({
+    container: {
+      flex: 1,
+      padding: 24,
+      backgroundColor: COLORS(themeId).primary800,
+    },
+
+    deleteContainer: {
+      marginTop: 16,
+      paddingTop: 8,
+      borderTopColor: COLORS(themeId).primary200,
+      borderTopWidth: 2,
+      alignItems: 'center',
+    },
+  })
+
+
+
   return (
     <View style={styles.container}>
       <ExpenseForm
@@ -94,18 +114,3 @@ function ManageExpense({ route, navigation }: any) {
 
 export default ManageExpense
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 24,
-    backgroundColor: COLORS().primary800,
-  },
-
-  deleteContainer: {
-    marginTop: 16,
-    paddingTop: 8,
-    borderTopColor: COLORS().primary200,
-    borderTopWidth: 2,
-    alignItems: 'center',
-  },
-})
