@@ -1,10 +1,9 @@
-import 'react-native-get-random-values'
 import axios from 'axios'
 
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-//@ts-ignore
-import { API_KEY } from 'react-native-dotenv'
+
+import { API_KEY } from '../env'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { getAsyncStorageData } from '../util/auth'
 
@@ -96,7 +95,7 @@ export const loginStored = createAsyncThunk<
         ['token', token],
         ['refreshToken', refreshToken],
       ])
-      return { token, refreshToken, ttd}
+      return { token, refreshToken, ttd }
     } catch (error: any) {
       return rejectWithValue(error.message)
     }

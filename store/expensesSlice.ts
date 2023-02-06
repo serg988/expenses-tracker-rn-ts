@@ -1,4 +1,3 @@
-import 'react-native-get-random-values'
 import axios from 'axios'
 
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'

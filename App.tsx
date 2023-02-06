@@ -2,7 +2,6 @@ import 'react-native-gesture-handler'
 import {
   NavigationContainer,
   useNavigation,
-  useNavigationContainerRef,
 } from '@react-navigation/native'
 import { StatusBar } from 'expo-status-bar'
 
@@ -10,9 +9,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import {
   createDrawerNavigator,
-  DrawerContentScrollView,
-  DrawerItem,
-  DrawerItemList,
 } from '@react-navigation/drawer'
 import ManageExpense from './screens/expenses/ManageExpense'
 import RecentExpenses from './screens/expenses/RecentExpenses'
@@ -22,14 +18,14 @@ import { COLORS } from './constants/styles'
 
 import { Ionicons } from '@expo/vector-icons'
 import IconButton from './components/ui/IconButton'
-import { Provider, useDispatch } from 'react-redux'
+import { Provider} from 'react-redux'
 import store from './store/store'
 import LoginScreen from './screens/auth/LoginScreen'
 import SignupScreen from './screens/auth/SignupScreen'
 import { useAppDispatch, useAppSelector } from './store/hooks'
 import { useEffect, useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { authenticate, logout } from './store/authSlice'
+import { authenticate } from './store/authSlice'
 import SettingsScreen from './screens/SettingsScreen'
 import Logout from './screens/auth/Logout'
 
@@ -42,7 +38,6 @@ const Drawer = createDrawerNavigator<any>()
 
 export function DrawerNavigation() {
   const themeId = useTheme()
-  const navigation = useNavigation()
   return (
     <Drawer.Navigator
       screenOptions={{
@@ -243,7 +238,6 @@ function Root() {
 
   useEffect(() => {
     const ttl = (ttd - +new Date().getTime()) / 1000
-    // console.log('🚀 ~ file: App.tsx:157 ~ useEffect ~ ttl', ttl)
     setTtl(ttl)
   }, [timer])
 
