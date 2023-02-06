@@ -6,6 +6,7 @@ import FlatButton from '../ui/FlatButton'
 import AuthForm from './AuthForm'
 import { COLORS } from '../../constants/styles'
 import { CredentialsSignup, CredentialsLogin } from '../../types'
+import useColor from '../../hooks/useColor'
 
 interface Props {
   isLogin: boolean
@@ -21,6 +22,7 @@ interface Props {
 }
 
 function AuthContent({ isLogin, onAuthenticate }: Props) {
+  const themeId = useColor()
   const navigation = useNavigation<any>()
 
   const [credentialsInvalid, setCredentialsInvalid] = useState({
@@ -72,6 +74,25 @@ function AuthContent({ isLogin, onAuthenticate }: Props) {
     onAuthenticate({ email, password, rememberCredentials })
   }
 
+  const styles = StyleSheet.create({
+    authContent: {
+      marginTop: 64,
+      marginHorizontal: 32,
+      padding: 16,
+      borderRadius: 8,
+      backgroundColor: COLORS(themeId).primary800,
+      elevation: 2,
+      shadowColor: 'black',
+      shadowOffset: { width: 1, height: 1 },
+      shadowOpacity: 0.35,
+      shadowRadius: 4,
+    },
+    buttons: {
+      marginTop: 8,
+    },
+  })
+
+
   return (
     <View style={styles.authContent}>
       <AuthForm
@@ -91,20 +112,3 @@ function AuthContent({ isLogin, onAuthenticate }: Props) {
 
 export default AuthContent
 
-const styles = StyleSheet.create({
-  authContent: {
-    marginTop: 64,
-    marginHorizontal: 32,
-    padding: 16,
-    borderRadius: 8,
-    backgroundColor: COLORS().primary800,
-    elevation: 2,
-    shadowColor: 'black',
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 0.35,
-    shadowRadius: 4,
-  },
-  buttons: {
-    marginTop: 8,
-  },
-})

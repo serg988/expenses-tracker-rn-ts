@@ -12,6 +12,7 @@ import type { CredentialsSignup } from '../../types'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import useColor from '../../hooks/useColor'
 
 interface Props {
   isLogin: boolean
@@ -32,6 +33,7 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }: Props) {
   const [enteredPassword, setEnteredPassword] = useState('')
   const [enteredConfirmPassword, setEnteredConfirmPassword] = useState('')
   const [rem, setRem] = useState(true)
+  const themeId = useColor()
 
   // const remember = useAppSelector((state) => state.auth.remember)
   const remember = async () => await AsyncStorage.getItem('remember')
@@ -115,12 +117,12 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }: Props) {
 
         <BouncyCheckbox
           size={18}
-          fillColor={COLORS().primary500}
+          fillColor={COLORS(themeId).primary500}
           // unfillColor='#FFFFFF'
           text='Remember credentials?'
-          iconStyle={{ borderColor: '#a774ea' }}
+          iconStyle={{ borderColor: COLORS(themeId).primary200 }}
           innerIconStyle={{ borderWidth: 2 }}
-          textStyle={{ color: COLORS().primary100 }}
+          textStyle={{ color: COLORS(themeId).primary100 }}
           isChecked={rem}
           onPress={(isChecked: boolean) => {
             setRem(isChecked)

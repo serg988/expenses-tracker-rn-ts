@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react'
+import React, { SetStateAction, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { ScrollView, View, Text, Button, StyleSheet } from 'react-native'
 import { RadioButton } from 'react-native-paper'
@@ -10,8 +10,8 @@ import useColor from '../hooks/useColor'
 const SettingsScreen = ({ navigation }: any) => {
   const themeId = useColor()
   const dispatch = useDispatch()
-  const [value, setValue] = useState(0)
-  const [font, setFont] = useState(1)
+  const [value, setValue] = useState<SetStateAction<number>>(0)
+  const [font, setFont] = useState<SetStateAction<number>>(1)
 
   const styles = StyleSheet.create({
     screen: {
@@ -46,20 +46,20 @@ const SettingsScreen = ({ navigation }: any) => {
       <Text style={styles.title}>Цветовая схема:</Text>
       <RadioButton.Group
         onValueChange={(value) => {
-          setValue(value)
+          setValue(+value)
           dispatch(setTheme(value))
         }}
-        value={value}
+        value={value.toString()}
       >
         <RadioButton.Item
           color={COLORS().accent500}
           label='1'
-          value={0}
+          value={'0'}
         />
         <RadioButton.Item
           color={COLORS().accent500}
           label='2'
-          value={1}
+          value={'1'}
         />
       </RadioButton.Group>
 
@@ -68,7 +68,7 @@ const SettingsScreen = ({ navigation }: any) => {
       <Text style={styles.title}>Размер шрифта:</Text>
       <RadioButton.Group
         onValueChange={(value) => {
-          setFont(value)
+          setFont(+value)
           // dispatch(setFontSize(value))
         }}
         value={font}
