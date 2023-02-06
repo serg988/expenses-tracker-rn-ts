@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native'
 import { View, Text, StyleSheet, Pressable } from 'react-native'
 import { COLORS } from '../../constants/styles'
-import useColor from '../../hooks/useColor'
+import useTheme from '../../hooks/useTheme'
 import { Expense } from '../../types'
 import { getFormattedDate } from '../../util/date'
 
@@ -11,7 +11,7 @@ interface Props {
 
 function ExpenseItem({ expense }: Props) {
   const navigation = useNavigation<any>()
-  const themeId = useColor()
+  const themeId = useTheme()
 
   const styles = StyleSheet.create({
     pressed: {
@@ -81,7 +81,4 @@ function ExpenseItem({ expense }: Props) {
   )
 }
 
-
-
 export default ExpenseItem
-

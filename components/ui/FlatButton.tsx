@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native'
 
 import { COLORS } from '../../constants/styles'
-import useColor from '../../hooks/useColor'
+import useTheme from '../../hooks/useTheme'
 
 interface Props {
   children: string
@@ -9,21 +9,21 @@ interface Props {
 }
 
 function FlatButton({ children, onPress }: Props) {
-  const themeId = useColor()
+  const themeId = useTheme()
 
-const styles = StyleSheet.create({
-  button: {
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-  },
-  pressed: {
-    opacity: 0.7,
-  },
-  buttonText: {
-    textAlign: 'center',
-    color: COLORS(themeId).primary100,
-  },
-})
+  const styles = StyleSheet.create({
+    button: {
+      paddingVertical: 6,
+      paddingHorizontal: 12,
+    },
+    pressed: {
+      opacity: 0.7,
+    },
+    buttonText: {
+      textAlign: 'center',
+      color: COLORS(themeId).primary100,
+    },
+  })
 
   return (
     <Pressable
@@ -38,5 +38,3 @@ const styles = StyleSheet.create({
 }
 
 export default FlatButton
-
-

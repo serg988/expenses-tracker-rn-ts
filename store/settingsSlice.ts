@@ -31,6 +31,7 @@ const settingsSlice = createSlice({
 
     setTheme(state, action) {
       state.themeId = action.payload
+      AsyncStorage.setItem('colorTheme', action.payload.toString())
     },
 
    

@@ -8,7 +8,7 @@ import ErrorOverlay from '../../components/ui/ErrorOverlay'
 import IconButton from '../../components/ui/IconButton'
 import LoadingOverlay from '../../components/ui/LoadingOverlay'
 import { COLORS } from '../../constants/styles'
-import useColor from '../../hooks/useColor'
+import useTheme from '../../hooks/useTheme'
 import {
   // addExpense,
   addNewExpense,
@@ -21,7 +21,7 @@ import store from '../../store/store'
 // import { storeExpense } from '../util/http'
 
 function ManageExpense({ route, navigation }: any) {
-  const themeId = useColor()
+  const themeId = useTheme()
   const id: string = route.params?.id
   const isEditing = !!id
   const dispatch = useAppDispatch()
@@ -87,8 +87,6 @@ function ManageExpense({ route, navigation }: any) {
     },
   })
 
-
-
   return (
     <View style={styles.container}>
       <ExpenseForm
@@ -113,4 +111,3 @@ function ManageExpense({ route, navigation }: any) {
 }
 
 export default ManageExpense
-

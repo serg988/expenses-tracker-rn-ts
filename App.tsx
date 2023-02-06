@@ -22,7 +22,7 @@ import { COLORS } from './constants/styles'
 
 import { Ionicons } from '@expo/vector-icons'
 import IconButton from './components/ui/IconButton'
-import { Provider } from 'react-redux'
+import { Provider, useDispatch } from 'react-redux'
 import store from './store/store'
 import LoginScreen from './screens/auth/LoginScreen'
 import SignupScreen from './screens/auth/SignupScreen'
@@ -33,15 +33,15 @@ import { authenticate, logout } from './store/authSlice'
 import SettingsScreen from './screens/SettingsScreen'
 import Logout from './screens/auth/Logout'
 
-import useColor from './hooks/useColor'
-
+import useTheme from './hooks/useTheme'
+import { setTheme } from './store/settingsSlice'
 
 const Stack = createNativeStackNavigator<any>()
 const BottomTabs = createBottomTabNavigator<BottomTabNavigatorParamList>()
 const Drawer = createDrawerNavigator<any>()
 
 export function DrawerNavigation() {
-  const themeId = useColor()
+  const themeId = useTheme()
   const navigation = useNavigation()
   return (
     <Drawer.Navigator
@@ -125,7 +125,7 @@ export function DrawerNavigation() {
 //------------------AUTH STACK-------------------------------------
 
 function AuthStack() {
-  const themeId = useColor()
+  const themeId = useTheme()
   return (
     <Stack.Navigator
       screenOptions={{
@@ -143,7 +143,7 @@ function AuthStack() {
 //------------------MAIN NAVIGATOR BOTTOM TABS-------------------------------------
 
 function ExpensesOverview() {
-  const themeId = useColor()
+  const themeId = useTheme()
   const dispatch = useAppDispatch()
   return (
     <BottomTabs.Navigator
@@ -205,7 +205,7 @@ function ExpensesOverview() {
 //------------------MAIN NAVIGATOR STACK-------------------------------------
 
 function MainNavigation() {
-  const themeId = useColor()
+  const themeId = useTheme()
   const navigation = useNavigation()
   return (
     <Stack.Navigator
@@ -233,6 +233,16 @@ function Root() {
   const ttd = useAppSelector((state) => state.auth.ttd)
 
   const dispatch = useAppDispatch()
+
+  useEffect(() => {
+    async function fn() {
+      const colorTheme = await AsyncStorage.getItem('colorTheme')
+      if (colorTheme) {
+        dispatch(setTheme(colorTheme))
+      }
+    }
+    fn()
+  }, [])
 
   const [timer, setTimer] = useState(0)
   const [ttl, setTtl] = useState(3600)

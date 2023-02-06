@@ -1,23 +1,24 @@
-
 import React, { SetStateAction, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { ScrollView, View, Text, Button, StyleSheet } from 'react-native'
 import { RadioButton } from 'react-native-paper'
 import { COLORS } from '../constants/styles'
 import { setTheme } from '../store/settingsSlice'
-import useColor from '../hooks/useColor'
+import useTheme from '../hooks/useTheme'
+import { useAppSelector } from '../hooks/hooks'
 
 const SettingsScreen = ({ navigation }: any) => {
-  const themeId = useColor()
+  const colorTheme = useAppSelector(state=>state.settings.themeId)
+  const themeId = useTheme()
   const dispatch = useDispatch()
-  const [value, setValue] = useState<SetStateAction<number>>(0)
+  const [value, setValue] = useState<SetStateAction<number>>(colorTheme)
   const [font, setFont] = useState<SetStateAction<number>>(1)
 
   const styles = StyleSheet.create({
     screen: {
       flex: 1,
       paddingTop: 20,
-      backgroundColor: COLORS(themeId).primary100
+      backgroundColor: COLORS(themeId).primary100,
     },
     title: {
       textAlign: 'center',
@@ -40,7 +41,6 @@ const SettingsScreen = ({ navigation }: any) => {
     },
   })
 
-
   return (
     <ScrollView style={styles.screen}>
       <Text style={styles.title}>Цветовая схема:</Text>
@@ -51,16 +51,8 @@ const SettingsScreen = ({ navigation }: any) => {
         }}
         value={value.toString()}
       >
-        <RadioButton.Item
-          color={COLORS().accent500}
-          label='1'
-          value={'0'}
-        />
-        <RadioButton.Item
-          color={COLORS().accent500}
-          label='2'
-          value={'1'}
-        />
+        <RadioButton.Item color={COLORS().accent500} label='1' value={'0'} />
+        <RadioButton.Item color={COLORS().accent500} label='2' value={'1'} />
       </RadioButton.Group>
 
       <View style={styles.separator} />
@@ -78,8 +70,16 @@ const SettingsScreen = ({ navigation }: any) => {
           label='Маленький'
           value={0}
         />
-        <RadioButton.Item color={COLORS().accent500} label='Средний' value={1} />
-        <RadioButton.Item color={COLORS().accent500} label='Большой' value={2} />
+        <RadioButton.Item
+          color={COLORS().accent500}
+          label='Средний'
+          value={1}
+        />
+        <RadioButton.Item
+          color={COLORS().accent500}
+          label='Большой'
+          value={2}
+        />
         <RadioButton.Item color={COLORS().accent500} label='XXXL' value={3} />
       </RadioButton.Group>
       <View style={styles.buttonContainer}>
@@ -91,10 +91,6 @@ const SettingsScreen = ({ navigation }: any) => {
       </View>
     </ScrollView>
   )
-
-
-  
 }
-
 
 export default SettingsScreen

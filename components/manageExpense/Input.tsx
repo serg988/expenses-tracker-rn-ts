@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TextInput, StyleProp } from 'react-native'
 import { COLORS } from '../../constants/styles'
-import useColor from '../../hooks/useColor'
+import useTheme from '../../hooks/useTheme'
 
 // DateTimePickerAndroid.open(params: AndroidNativeProps)
 // DateTimePickerAndroid.dismiss(mode: AndroidNativeProps['mode'])
@@ -20,8 +20,7 @@ interface Props {
 }
 
 function Input({ label, textInputConfig, invalid, style }: Props) {
-  const themeId = useColor()
-  
+  const themeId = useTheme()
 
   const styles = StyleSheet.create({
     inputContainer: {
@@ -58,7 +57,6 @@ function Input({ label, textInputConfig, invalid, style }: Props) {
     inputStyles.push(styles.inputMultiline)
   }
 
-
   return (
     <View style={[styles.inputContainer, style]}>
       <Text style={[styles.label, invalid && styles.invalidLabel]}>
@@ -73,4 +71,3 @@ function Input({ label, textInputConfig, invalid, style }: Props) {
 }
 
 export default Input
-

@@ -4,7 +4,7 @@ import Button from '../ui/Button'
 import Input from './Input'
 import { Expense } from '../../types'
 import { COLORS } from '../../constants/styles'
-import useColor from '../../hooks/useColor'
+import useTheme from '../../hooks/useTheme'
 
 export type SubmitType = {
   id?: string
@@ -26,7 +26,7 @@ function ExpenseForm({
   onSubmit,
   defaultValues,
 }: Props) {
-  const themeId = useColor()
+  const themeId = useTheme()
   const [input, setInput] = useState({
     amount: {
       value: defaultValues ? defaultValues.amount.toString() : '',
@@ -44,42 +44,41 @@ function ExpenseForm({
     },
   })
 
-const styles = StyleSheet.create({
-  form: {
-    marginTop: 40,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#fff',
-    textAlign: 'center',
-    marginBottom: 40,
-  },
-  inputRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  errorText: {
-    textAlign: 'center',
-    color: COLORS(themeId).error500,
-    fontSize: 16,
-    margin: 8,
-  },
-  input: {
-    flex: 1,
-  },
-  buttons: {
-    marginTop: 50,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  button: {
-    minWidth: 120,
-    marginHorizontal: 8,
-  },
-})
-
+  const styles = StyleSheet.create({
+    form: {
+      marginTop: 40,
+    },
+    title: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      color: '#fff',
+      textAlign: 'center',
+      marginBottom: 40,
+    },
+    inputRow: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+    },
+    errorText: {
+      textAlign: 'center',
+      color: COLORS(themeId).error500,
+      fontSize: 16,
+      margin: 8,
+    },
+    input: {
+      flex: 1,
+    },
+    buttons: {
+      marginTop: 50,
+      flexDirection: 'row',
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    button: {
+      minWidth: 120,
+      marginHorizontal: 8,
+    },
+  })
 
   function inputHandler(id: 'amount' | 'date' | 'description', value: string) {
     return setInput((prev) => {
@@ -167,4 +166,3 @@ const styles = StyleSheet.create({
 }
 
 export default ExpenseForm
-

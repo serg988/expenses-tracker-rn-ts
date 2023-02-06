@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native'
 import { COLORS } from '../../constants/styles'
-import useColor from '../../hooks/useColor'
+import useTheme from '../../hooks/useTheme'
 import { Expense } from '../../types'
 import ExpensesList from './ExpensesList'
 import ExpensesSummary from './ExpensesSummary'
@@ -12,7 +12,7 @@ interface Props {
 }
 
 function ExpensesOutput({ expenses, expensesPeriod, fallbackText }: Props) {
-  const themeId = useColor()
+  const themeId = useTheme()
 
   const styles = StyleSheet.create({
     container: {
@@ -45,5 +45,3 @@ function ExpensesOutput({ expenses, expensesPeriod, fallbackText }: Props) {
 }
 
 export default ExpensesOutput
-
-

@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native'
 import { COLORS } from '../../constants/styles'
-import useColor from '../../hooks/useColor'
+import useTheme from '../../hooks/useTheme'
 import Button from './Button'
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
 }
 
 function ErrorOverlay({ message, onConfirm }: Props) {
-  const themeId = useColor()
+  const themeId = useTheme()
 
   const styles = StyleSheet.create({
     container: {

@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, Pressable } from 'react-native'
 import { COLORS } from '../../constants/styles'
-import useColor from '../../hooks/useColor'
+import useTheme from '../../hooks/useTheme'
 
 interface Props {
   children: string
@@ -10,31 +10,30 @@ interface Props {
 }
 
 function Button({ children, onPress, mode, style }: Props) {
-  const themeId = useColor()
+  const themeId = useTheme()
 
-const styles = StyleSheet.create({
-  button: {
-    borderRadius: 4,
-    padding: 8,
-    backgroundColor: COLORS(themeId).primary500,
-  },
-  flat: {
-    backgroundColor: 'transparent',
-  },
-  buttonText: {
-    color: 'white',
-    textAlign: 'center',
-  },
-  flatText: {
-    color: COLORS(themeId).primary200,
-  },
-  pressed: {
-    opacity: 0.75,
-    backgroundColor: COLORS(themeId).primary100,
-    borderRadius: 4,
-  },
-})
-
+  const styles = StyleSheet.create({
+    button: {
+      borderRadius: 4,
+      padding: 8,
+      backgroundColor: COLORS(themeId).primary500,
+    },
+    flat: {
+      backgroundColor: 'transparent',
+    },
+    buttonText: {
+      color: 'white',
+      textAlign: 'center',
+    },
+    flatText: {
+      color: COLORS(themeId).primary200,
+    },
+    pressed: {
+      opacity: 0.75,
+      backgroundColor: COLORS(themeId).primary100,
+      borderRadius: 4,
+    },
+  })
 
   return (
     <View style={style}>
@@ -53,4 +52,3 @@ const styles = StyleSheet.create({
 }
 
 export default Button
-

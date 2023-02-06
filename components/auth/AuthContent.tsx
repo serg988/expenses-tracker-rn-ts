@@ -6,7 +6,7 @@ import FlatButton from '../ui/FlatButton'
 import AuthForm from './AuthForm'
 import { COLORS } from '../../constants/styles'
 import { CredentialsSignup, CredentialsLogin } from '../../types'
-import useColor from '../../hooks/useColor'
+import useTheme from '../../hooks/useTheme'
 
 interface Props {
   isLogin: boolean
@@ -22,7 +22,7 @@ interface Props {
 }
 
 function AuthContent({ isLogin, onAuthenticate }: Props) {
-  const themeId = useColor()
+  const themeId = useTheme()
   const navigation = useNavigation<any>()
 
   const [credentialsInvalid, setCredentialsInvalid] = useState({
@@ -92,7 +92,6 @@ function AuthContent({ isLogin, onAuthenticate }: Props) {
     },
   })
 
-
   return (
     <View style={styles.authContent}>
       <AuthForm
@@ -111,4 +110,3 @@ function AuthContent({ isLogin, onAuthenticate }: Props) {
 }
 
 export default AuthContent
-
