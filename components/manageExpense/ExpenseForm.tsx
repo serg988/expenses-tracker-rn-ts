@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { View, Text, StyleSheet, Alert } from 'react-native'
+
 import Button from '../ui/Button'
 import Input from './Input'
 import { Expense } from '../../types'
 import { COLORS } from '../../constants/styles'
 import useTheme from '../../hooks/useTheme'
+import Select from './Select'
 
 export type SubmitType = {
   id?: string
@@ -40,6 +42,10 @@ function ExpenseForm({
       value: defaultValues
         ? defaultValues.date.toISOString().slice(0, 10)
         : new Date().toISOString().slice(0, 10),
+      isValid: true,
+    },
+    category: {
+      value: defaultValues ? defaultValues.category : 'Продукты',
       isValid: true,
     },
   })
@@ -78,9 +84,19 @@ function ExpenseForm({
       minWidth: 120,
       marginHorizontal: 8,
     },
+    categoriesLabel: {
+      color: COLORS().primary100,
+      fontSize: 12,
+      marginHorizontal: 8,
+      marginBottom: -5,
+    },
   })
 
-  function inputHandler(id: 'amount' | 'date' | 'description', value: string) {
+  function inputHandler(
+    id: 'amount' | 'date' | 'description' | 'category',
+    value: string
+  ) {
+    console.log('🚀 ~ file: ExpenseForm.tsx:99 ~ value', value)
     return setInput((prev) => {
       return { ...prev, [id]: { value, isValid: true } }
     })
@@ -91,6 +107,7 @@ function ExpenseForm({
       amount: +input.amount.value,
       date: new Date(input.date.value),
       description: input.description.value,
+      category: input.category.value,
     }
 
     const amountIsValid = !isNaN(expenseData.amount) && expenseData.amount > 0
@@ -107,6 +124,7 @@ function ExpenseForm({
             isValid: descriptionIsValid,
           },
           date: { value: prev.date.value, isValid: dateIsValid },
+          category: { value: prev.category.value, isValid: true },
         }
       })
       return
@@ -152,6 +170,14 @@ function ExpenseForm({
           value: input.description.value,
         }}
       />
+      <Text style={styles.categoriesLabel}>Категория</Text>
+
+      <Select
+        onSelect={(selected: string) => {
+          inputHandler('category', selected)
+        }}
+      />
+
       {formIsInvalid && <Text style={styles.errorText}>Invalid inputs!</Text>}
       <View style={styles.buttons}>
         <Button style={styles.button} mode='flat' onPress={onCancel}>

@@ -58,8 +58,8 @@ const SettingsScreen = ({ navigation }: any) => {
 
       <View style={styles.separator} />
 
-      <Text style={styles.title}>Размер шрифта:</Text>
-      <RadioButton.Group
+      {/* <Text style={styles.title}>Размер шрифта:</Text> */}
+      {/* <RadioButton.Group
         onValueChange={(value) => {
           setFont(+value)
           // dispatch(setFontSize(value))
@@ -82,7 +82,7 @@ const SettingsScreen = ({ navigation }: any) => {
           value={2}
         />
         <RadioButton.Item color={COLORS().accent500} label='XXXL' value={3} />
-      </RadioButton.Group>
+      </RadioButton.Group> */}
       <View style={styles.buttonContainer}>
         <Button
           title='Назад'

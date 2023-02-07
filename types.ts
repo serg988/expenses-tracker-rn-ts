@@ -39,6 +39,8 @@ export type BottomTabNavigatorParamList = {
 //   Settings: undefined
 // }
 
+// type Categories = 'meals'
+
 export type Expense = {
   id?: string
   category?: string

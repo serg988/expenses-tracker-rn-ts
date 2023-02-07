@@ -14,14 +14,14 @@
       },
       "channel": "preview"
     },
-    "preview2": {
-      "android": {
-        "gradleCommand": ":app:assembleRelease"
-      }
-    },
-    "preview3": {
-      "developmentClient": true
-    },
+    // "preview2": {
+    //   "android": {
+    //     "gradleCommand": ":app:assembleRelease"
+    //   }
+    // },
+    // "preview3": {
+    //   "developmentClient": true
+    // },
     "production": {
       "channel": "production"
     }
