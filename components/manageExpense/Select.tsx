@@ -4,23 +4,13 @@ import { View, Text, StyleSheet } from 'react-native'
 import { COLORS } from '../../constants/styles'
 import useTheme from '../../hooks/useTheme'
 import { SelectList } from 'react-native-dropdown-select-list'
+import { catArray } from '../../constants/categories'
 
 function Select({ onSelect }: any) {
   const themeId = useTheme()
   const [selected, setSelected] = useState('')
-  // console.log('🚀 ~ file: Select.tsx:11 ~ Select ~ selected', selected)
 
-  const catArray = [
-    'Продукты',
-    'Пиво',
-    'Бензин',
-    'Расходы авто',
-    'Собаки',
-    'Куры',
-    'Ремонт',
-    'Коммунальные',
-    'Другое',
-  ]
+  
 
   const data = catArray.map((cat) => {
     return { key: cat, value: cat }

@@ -37,6 +37,7 @@ export const fetchExpenses = createAsyncThunk<
         amount: response.data[key].amount,
         description: response.data[key].description,
         date: new Date(response.data[key].date),
+        category: response.data[key].category
       }
       expenses.push(expenseObj)
     }

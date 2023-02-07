@@ -41,6 +41,13 @@ function ExpenseItem({ expense }: Props) {
       marginBottom: 4,
       fontWeight: 'bold',
     },
+    category: {
+      color: COLORS(themeId).primary700,
+      fontSize: 16,
+      marginBottom: 4,
+      fontWeight: 'bold',
+      fontStyle: 'italic',
+    },
     amountContainer: {
       flex: 1,
       paddingHorizontal: 12,
@@ -50,11 +57,22 @@ function ExpenseItem({ expense }: Props) {
       alignItems: 'center',
       borderRadius: 4,
       minWidth: 40,
+      marginLeft: 10,
     },
     amountText: {
       color: COLORS(themeId).primary800,
       fontWeight: 'bold',
     },
+    catDateContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+    },
+    catContainer: {
+      backgroundColor: COLORS(themeId).accent500,
+      paddingHorizontal: 3,
+      borderRadius: 12
+    }
   })
 
   function pressHandler() {
@@ -71,7 +89,17 @@ function ExpenseItem({ expense }: Props) {
           <Text style={[styles.textBase, styles.description]}>
             {expense.description}
           </Text>
-          <Text style={styles.textBase}>{getFormattedDate(expense.date)}</Text>
+          <View style={styles.catDateContainer}>
+            <View style={styles.catContainer}>
+              <Text style={[styles.textBase, styles.category]}>
+              {expense.category}
+            </Text>
+            </View>
+            
+            <Text style={styles.textBase}>
+              {getFormattedDate(expense.date)}
+            </Text>
+          </View>
         </View>
         <View style={styles.amountContainer}>
           <Text style={styles.amountText}>{expense.amount.toFixed(0)}</Text>
