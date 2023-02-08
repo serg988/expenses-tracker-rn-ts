@@ -1,5 +1,5 @@
 import { useLayoutEffect } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Alert } from 'react-native'
 import ExpenseForm, {
   SubmitType,
 } from '../../components/manageExpense/ExpenseForm'
@@ -37,6 +37,21 @@ function ManageExpense({ route, navigation }: any) {
     })
   }, [navigation, isEditing])
 
+  const showConfirmDialog = () => {
+    return Alert.alert('Точно?', 'Вы точно хотите удалить расход?', [
+      {
+        text: 'Да',
+        onPress: () => {
+          DeleteHandler()
+        },
+      },
+      {
+        text: 'Нет',
+        onPress: () => navigation.goBack(),
+      },
+    ])
+  }
+
   function DeleteHandler() {
     dispatch(deleteExpense(id))
     navigation.goBack()
@@ -52,7 +67,6 @@ function ManageExpense({ route, navigation }: any) {
       dispatch(fetchExpenses())
     } else {
       dispatch(addNewExpense(expense))
- 
     }
     navigation.goBack()
   }
@@ -98,7 +112,7 @@ function ManageExpense({ route, navigation }: any) {
             icon='trash'
             color={COLORS(themeId).error500}
             size={36}
-            onPress={DeleteHandler}
+            onPress={showConfirmDialog}
           />
         </View>
       )}
