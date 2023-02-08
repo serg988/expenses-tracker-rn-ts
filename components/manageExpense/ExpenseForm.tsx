@@ -57,7 +57,7 @@ function ExpenseForm({
     title: {
       fontSize: 24,
       fontWeight: 'bold',
-      color: '#fff',
+      color: COLORS(themeId).primary50,
       textAlign: 'center',
       marginBottom: 40,
     },
@@ -85,7 +85,7 @@ function ExpenseForm({
       marginHorizontal: 8,
     },
     categoriesLabel: {
-      color: COLORS().primary100,
+      color: COLORS(themeId).primary100,
       fontSize: 12,
       marginHorizontal: 8,
       marginBottom: -5,
@@ -96,7 +96,6 @@ function ExpenseForm({
     id: 'amount' | 'date' | 'description' | 'category',
     value: string
   ) {
-    console.log('🚀 ~ file: ExpenseForm.tsx:99 ~ value', value)
     return setInput((prev) => {
       return { ...prev, [id]: { value, isValid: true } }
     })
@@ -176,6 +175,7 @@ function ExpenseForm({
         onSelect={(selected: string) => {
           inputHandler('category', selected)
         }}
+        value = {input.category.value}
       />
 
       {formIsInvalid && <Text style={styles.errorText}>Invalid inputs!</Text>}

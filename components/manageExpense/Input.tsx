@@ -29,7 +29,7 @@ function Input({ label, textInputConfig, invalid, style }: Props) {
     },
     label: {
       fontSize: 12,
-      color: COLORS().primary100,
+      color: COLORS(themeId).primary100,
       marginBottom: 4,
     },
     input: {

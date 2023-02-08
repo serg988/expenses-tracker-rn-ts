@@ -22,7 +22,7 @@ function Button({ children, onPress, mode, style }: Props) {
       backgroundColor: 'transparent',
     },
     buttonText: {
-      color: 'white',
+      color: COLORS(themeId).primary50,
       textAlign: 'center',
     },
     flatText: {

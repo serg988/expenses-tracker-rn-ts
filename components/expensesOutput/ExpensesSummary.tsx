@@ -14,7 +14,7 @@ function ExpensesSummary({ expenses, periodName }: Props) {
   const styles = StyleSheet.create({
     container: {
       padding: 8,
-      backgroundColor: COLORS().primary50,
+      backgroundColor: COLORS(themeId).primary50,
       borderRadius: 6,
       flexDirection: 'row',
       justifyContent: 'space-between',

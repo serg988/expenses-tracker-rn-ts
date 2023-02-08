@@ -40,6 +40,9 @@ export const fetchExpenses = createAsyncThunk<
         category: response.data[key].category
       }
       expenses.push(expenseObj)
+      expenses.sort(function (a, b) {
+        return a.date.getTime() - b.date.getTime()
+      })
     }
     return expenses.reverse()
   } catch (error: any) {

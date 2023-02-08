@@ -23,7 +23,7 @@ function ExpensesOutput({ expenses, expensesPeriod, fallbackText }: Props) {
       backgroundColor: COLORS(themeId).primary700,
     },
     fallbackText: {
-      color: '#fff',
+      color: COLORS(themeId).primary50,
       fontSize: 16,
       textAlign: 'center',
       marginTop: 172,

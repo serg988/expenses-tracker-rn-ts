@@ -1,15 +1,10 @@
 import 'react-native-gesture-handler'
-import {
-  NavigationContainer,
-  useNavigation,
-} from '@react-navigation/native'
+import { NavigationContainer, useNavigation } from '@react-navigation/native'
 import { StatusBar } from 'expo-status-bar'
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import {
-  createDrawerNavigator,
-} from '@react-navigation/drawer'
+import { createDrawerNavigator } from '@react-navigation/drawer'
 import ManageExpense from './screens/expenses/ManageExpense'
 import RecentExpenses from './screens/expenses/RecentExpenses'
 import AllExpenses from './screens/expenses/AllExpenses'
@@ -18,7 +13,7 @@ import { COLORS } from './constants/styles'
 
 import { Ionicons } from '@expo/vector-icons'
 import IconButton from './components/ui/IconButton'
-import { Provider} from 'react-redux'
+import { Provider } from 'react-redux'
 import store from './store/store'
 import LoginScreen from './screens/auth/LoginScreen'
 import SignupScreen from './screens/auth/SignupScreen'
@@ -44,14 +39,14 @@ export function DrawerNavigation() {
         headerStyle: {
           backgroundColor: COLORS(themeId).primary500,
         },
-        headerTintColor: '#fff',
+        headerTintColor: COLORS(themeId).primary50,
         sceneContainerStyle: {
           backgroundColor: COLORS(themeId).primary500,
         },
         drawerContentStyle: {
           backgroundColor: COLORS(themeId).primary500,
         },
-        drawerInactiveTintColor: '#fff',
+        drawerInactiveTintColor: COLORS(themeId).primary50,
         drawerActiveTintColor: COLORS(themeId).primary50,
         drawerActiveBackgroundColor: COLORS(themeId).primary500,
       }}
@@ -111,7 +106,7 @@ function AuthStack() {
     <Stack.Navigator
       screenOptions={{
         headerStyle: { backgroundColor: COLORS(themeId).primary500 },
-        headerTintColor: 'white',
+        headerTintColor: COLORS(themeId).primary50,
         contentStyle: { backgroundColor: COLORS(themeId).primary100 },
       }}
     >
@@ -132,7 +127,7 @@ function ExpensesOverview() {
         headerStyle: {
           backgroundColor: COLORS(themeId).primary500,
         },
-        headerTintColor: '#fff',
+        headerTintColor: COLORS(themeId).primary50,
         tabBarStyle: {
           backgroundColor: COLORS(themeId).primary500,
         },
@@ -141,7 +136,7 @@ function ExpensesOverview() {
           <IconButton
             icon='add'
             size={24}
-            color={tintColor || 'white'}
+            color={tintColor || COLORS(themeId).primary50}
             onPress={() => navigation.navigate('ManageExpense')}
           />
         ),
@@ -149,7 +144,7 @@ function ExpensesOverview() {
           <IconButton
             icon='menu'
             size={24}
-            color={tintColor || 'white'}
+            color={tintColor || COLORS(themeId).primary50}
             onPress={() => navigation.openDrawer()}
           />
         ),
@@ -191,7 +186,7 @@ function MainNavigation() {
         headerStyle: {
           backgroundColor: COLORS(themeId).primary500,
         },
-        headerTintColor: '#fff',
+        headerTintColor: COLORS(themeId).primary50,
       }}
     >
       <Stack.Screen

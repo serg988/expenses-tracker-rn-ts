@@ -8,7 +8,7 @@ import { Ionicons } from '@expo/vector-icons'
 
 type initialState = {
   fontSize: 'small' | 'normal' | 'large'
-  themeId: 0 | 1 | 2
+  themeId: 0 | 1 | 2 | 3
 }
 
 const initialState: initialState = {

@@ -20,7 +20,7 @@ function ErrorOverlay({ message, onConfirm }: Props) {
       backgroundColor: COLORS(themeId).primary700,
     },
     text: {
-      color: '#fff',
+      color: COLORS(themeId).primary50,
       textAlign: 'center',
       marginBottom: 8,
     },
@@ -29,6 +29,7 @@ function ErrorOverlay({ message, onConfirm }: Props) {
       fontSize: 20,
     },
   })
+
 
   return (
     <View style={styles.container}>
@@ -41,21 +42,3 @@ function ErrorOverlay({ message, onConfirm }: Props) {
 
 export default ErrorOverlay
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 24,
-    backgroundColor: COLORS().primary700,
-  },
-  text: {
-    color: '#fff',
-    textAlign: 'center',
-    marginBottom: 8,
-  },
-  title: {
-    fontWeight: 'bold',
-    fontSize: 20,
-  },
-})

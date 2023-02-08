@@ -8,7 +8,7 @@ import useTheme from '../hooks/useTheme'
 import { useAppSelector } from '../hooks/hooks'
 
 const SettingsScreen = ({ navigation }: any) => {
-  const colorTheme = useAppSelector(state=>state.settings.themeId)
+  const colorTheme = useAppSelector((state) => state.settings.themeId)
   const themeId = useTheme()
   const dispatch = useDispatch()
   const [value, setValue] = useState<SetStateAction<number>>(colorTheme)
@@ -51,9 +51,26 @@ const SettingsScreen = ({ navigation }: any) => {
         }}
         value={value.toString()}
       >
-        <RadioButton.Item color={COLORS().accent500} label='1' value={'0'} />
-        <RadioButton.Item color={COLORS().accent500} label='2' value={'1'} />
-        <RadioButton.Item color={COLORS().accent500} label='3' value={'2'} />
+        <RadioButton.Item
+          color={COLORS(themeId).accent500}
+          label='1'
+          value={'0'}
+        />
+        <RadioButton.Item
+          color={COLORS(themeId).accent500}
+          label='2'
+          value={'1'}
+        />
+        <RadioButton.Item
+          color={COLORS(themeId).accent500}
+          label='3'
+          value={'2'}
+        />
+        <RadioButton.Item
+          color={COLORS(themeId).accent500}
+          label='4'
+          value={'3'}
+        />
       </RadioButton.Group>
 
       <View style={styles.separator} />
@@ -67,26 +84,26 @@ const SettingsScreen = ({ navigation }: any) => {
         value={font}
       >
         <RadioButton.Item
-          color={COLORS().accent500}
+          color={COLORS(themeId).accent500}
           label='Маленький'
           value={0}
         />
         <RadioButton.Item
-          color={COLORS().accent500}
+          color={COLORS(themeId).accent500}
           label='Средний'
           value={1}
         />
         <RadioButton.Item
-          color={COLORS().accent500}
+          color={COLORS(themeId).accent500}
           label='Большой'
           value={2}
         />
-        <RadioButton.Item color={COLORS().accent500} label='XXXL' value={3} />
+        <RadioButton.Item color={COLORS(themeId).accent500} label='XXXL' value={3} />
       </RadioButton.Group> */}
       <View style={styles.buttonContainer}>
         <Button
           title='Назад'
-          color={COLORS().accent500}
+          color={COLORS(themeId).accent500}
           onPress={() => navigation.goBack()}
         />
       </View>

@@ -22,7 +22,7 @@ function LoadingOverlay({ message }: Props) {
   return (
     <View style={styles.container}>
       {message && <Text style={styles.message}>{message}</Text>}
-      <ActivityIndicator size='large' color='#fff' />
+      <ActivityIndicator size='large' color={COLORS(themeId).primary50} />
     </View>
   )
 }

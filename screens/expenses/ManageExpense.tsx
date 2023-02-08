@@ -3,16 +3,15 @@ import { View, Text, StyleSheet } from 'react-native'
 import ExpenseForm, {
   SubmitType,
 } from '../../components/manageExpense/ExpenseForm'
-import Button from '../../components/ui/Button'
 import ErrorOverlay from '../../components/ui/ErrorOverlay'
 import IconButton from '../../components/ui/IconButton'
 import LoadingOverlay from '../../components/ui/LoadingOverlay'
 import { COLORS } from '../../constants/styles'
 import useTheme from '../../hooks/useTheme'
 import {
-  // addExpense,
   addNewExpense,
   deleteExpense,
+  fetchExpenses,
   resetError,
   updateExpense,
 } from '../../store/expensesSlice'
@@ -47,16 +46,13 @@ function ManageExpense({ route, navigation }: any) {
     navigation.goBack()
   }
 
-  function confirmHandler(expense: SubmitType) {
+  async function confirmHandler(expense: SubmitType) {
     if (isEditing) {
-      dispatch(updateExpense({ ...expense, id }))
+      await dispatch(updateExpense({ ...expense, id }))
+      dispatch(fetchExpenses())
     } else {
       dispatch(addNewExpense(expense))
-      // dispatch(
-      //   addExpense({
-      //     expense: expense,
-      //   })
-      // )
+ 
     }
     navigation.goBack()
   }
@@ -100,7 +96,7 @@ function ManageExpense({ route, navigation }: any) {
         <View style={styles.deleteContainer}>
           <IconButton
             icon='trash'
-            color={COLORS().error500}
+            color={COLORS(themeId).error500}
             size={36}
             onPress={DeleteHandler}
           />
