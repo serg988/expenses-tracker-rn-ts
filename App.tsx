@@ -26,6 +26,7 @@ import Logout from './screens/auth/Logout'
 
 import useTheme from './hooks/useTheme'
 import { setTheme } from './store/settingsSlice'
+import StatisticsScreen from './screens/statistics/StatisticsScreen'
 
 const Stack = createNativeStackNavigator<any>()
 const BottomTabs = createBottomTabNavigator<BottomTabNavigatorParamList>()
@@ -60,6 +61,21 @@ export function DrawerNavigation() {
           drawerIcon: ({ focused, size }) => (
             <Ionicons
               name='cash'
+              size={size}
+              color={focused ? COLORS(themeId).accent500 : '#ccc'}
+            />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name='Statistics'
+        component={StatisticsScreen}
+        options={{
+          headerShown: true,
+          title: 'Статистика',
+          drawerIcon: ({ focused, size }) => (
+            <Ionicons
+              name='bar-chart'
               size={size}
               color={focused ? COLORS(themeId).accent500 : '#ccc'}
             />

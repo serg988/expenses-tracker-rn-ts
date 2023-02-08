@@ -7,6 +7,7 @@ import { Expense } from '../../types'
 import { COLORS } from '../../constants/styles'
 import useTheme from '../../hooks/useTheme'
 import Select from './Select'
+import { catArray } from '../../constants/categories'
 
 export type SubmitType = {
   id?: string
@@ -126,6 +127,7 @@ function ExpenseForm({
           category: { value: prev.category.value, isValid: true },
         }
       })
+
       return
     }
     onSubmit(expenseData)
@@ -133,6 +135,15 @@ function ExpenseForm({
 
   const formIsInvalid =
     !input.amount.isValid || !input.date.isValid || !input.description.isValid
+
+  const data = catArray.map((cat) => {
+    return { key: cat, value: cat }
+  })
+
+  const selectDefaultValue = input.category.value
+    ? { key: input.category.value, value: input.category.value }
+    : { key: 'Продукты', value: 'Продукты' }
+
   return (
     <View style={styles.form}>
       <Text style={styles.title}>Ваш Расход</Text>
@@ -175,7 +186,8 @@ function ExpenseForm({
         onSelect={(selected: string) => {
           inputHandler('category', selected)
         }}
-        value = {input.category.value}
+        data={data}
+        defaultOption={selectDefaultValue}
       />
 
       {formIsInvalid && <Text style={styles.errorText}>Invalid inputs!</Text>}

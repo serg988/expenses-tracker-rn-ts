@@ -6,13 +6,16 @@ import useTheme from '../../hooks/useTheme'
 import { SelectList } from 'react-native-dropdown-select-list'
 import { catArray } from '../../constants/categories'
 
-function Select({ onSelect, value }: any) {
+interface Props {
+  onSelect: (selected: string) => void
+  value?: string
+  data: { key: string; value: string }[]
+  defaultOption: { key: string; value: string }
+}
+
+function Select({ onSelect, data, defaultOption }: Props) {
   const themeId = useTheme()
   const [selected, setSelected] = useState('')
-
-  const data = catArray.map((cat) => {
-    return { key: cat, value: cat }
-  })
 
   return (
     <View>
@@ -30,7 +33,7 @@ function Select({ onSelect, value }: any) {
         }}
         inputStyles={{
           color: COLORS(themeId).primary700,
-          fontSize: 18
+          fontSize: 18,
         }}
         dropdownTextStyles={{
           color: COLORS(themeId).primary500,
@@ -39,11 +42,7 @@ function Select({ onSelect, value }: any) {
           padding: 8,
           borderRadius: 8,
         }}
-        defaultOption={
-          value
-            ? { key: value, value: value }
-            : { key: 'Продукты', value: 'Продукты' }
-        }
+        defaultOption={defaultOption}
       />
     </View>
   )
