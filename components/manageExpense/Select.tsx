@@ -4,11 +4,11 @@ import { View, Text, StyleSheet } from 'react-native'
 import { COLORS } from '../../constants/styles'
 import useTheme from '../../hooks/useTheme'
 import { SelectList } from 'react-native-dropdown-select-list'
-import { catArray } from '../../constants/categories'
+import { catArray, CatArrayType } from '../../constants/categories'
+import { PeriodArrayType } from '../../constants/periods'
 
 interface Props {
   onSelect: (selected: string) => void
-  value?: string
   data: { key: string; value: string }[]
   defaultOption: { key: string; value: string }
 }

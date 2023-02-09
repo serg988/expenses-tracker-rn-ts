@@ -4,6 +4,7 @@ import type {
   CompositeNavigationProp,
   RouteProp,
 } from '@react-navigation/native'
+import { CatArrayType } from './constants/categories'
 
 export type RootStackParamList = {
   ManageExpense: undefined
@@ -43,7 +44,7 @@ export type BottomTabNavigatorParamList = {
 
 export type Expense = {
   id?: string
-  category?: string
+  category: CatArrayType
   description: string
   amount: number
   date: Date
