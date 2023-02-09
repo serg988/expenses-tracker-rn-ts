@@ -16,14 +16,39 @@ import { Expense } from '../../types'
 
 function StatisticsScreen() {
   const [period, setPeriod] = useState<PeriodArrayType>()
+  const [barLength, setBarLength] = useState({})
+  console.log("🚀 ~ file: StatisticsScreen.tsx:20 ~ StatisticsScreen ~ barLength", barLength)
+  
+
   const dispatch = useAppDispatch()
   const themeId = useTheme()
 
-  useEffect(() => {
-    dispatch(fetchExpenses())
-  }, [])
-
   const expenses = useAppSelector((state) => state.expenses.expenses)
+  useEffect(() => {
+    setBars()
+  }, [period])
+
+  //Set bars lengths
+  function setBars() {
+    catArray.forEach((cat) => {
+      const catData = getExpensesByCategory(cat)
+      // console.log("🚀 ~ file: StatisticsScreen.tsx:35 ~ catArray.forEach ~ catData", catData)
+      if (catData.length > 0) {
+        setBarLength((prev) => {
+          return { ...prev, [cat]: reduceExpenses(catData) }
+        })
+      } else {
+        setBarLength((prev) => {
+          return { ...prev, [cat]: 0 }
+        })
+      }
+      
+      let length = 1
+      
+      //TODO-------------------------------------
+      
+    })
+  }
 
   // Filter by month-------------------------------------
 
@@ -36,8 +61,11 @@ function StatisticsScreen() {
   }
 
   // Filter for last SOME days
-  function filterExpensesForPeriod(days: number) {
+  function filterExpensesForPeriod(days = 0) {
     const recentExpenses = expenses.filter((expense) => {
+      if (period === 'За неделю') days = 7
+      if (period === 'За месяц') days = 30
+      if (period === 'За год') days = 365
       const today = new Date()
       const someDaysAgo = getDateMinusDays(today, days)
       return expense.date > someDaysAgo
@@ -50,6 +78,7 @@ function StatisticsScreen() {
     const filteredByCat = expenses.filter((c) => c.category === category)
     return filteredByCat
   }
+    
 
   //Reduce selected expenses-------------------
   function reduceExpenses(expenses: Expense[]) {
@@ -59,7 +88,6 @@ function StatisticsScreen() {
     }, 0)
     return expensesSum
   }
-  
 
   //-----------------------------------------
 
@@ -126,7 +154,11 @@ function StatisticsScreen() {
         <View
           style={[
             styles.bar,
-            { width: Dimensions.get('window').width * Math.random() * 0.8 },
+            {
+              width: barLength[cat],
+              maxWidth: Dimensions.get('window').width * 0.8,
+            },
+            // { width: Dimensions.get('window').width * Math.random() * 0.8 },
           ]}
         ></View>
         <View style={styles.labelContainer}>
