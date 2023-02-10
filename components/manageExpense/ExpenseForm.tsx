@@ -7,10 +7,11 @@ import { Expense } from '../../types'
 import { COLORS } from '../../constants/styles'
 import useTheme from '../../hooks/useTheme'
 import Select from './Select'
-import { catArray } from '../../constants/categories'
+import { catArray, CatArrayType } from '../../constants/categories'
 
 export type SubmitType = {
   id?: string
+  category: CatArrayType
   amount: number
   description: string
   date: Date

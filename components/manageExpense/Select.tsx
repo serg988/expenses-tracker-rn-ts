@@ -20,11 +20,11 @@ function Select({ onSelect, data, defaultOption }: Props) {
   return (
     <View>
       <SelectList
-        onSelect={onSelect.bind(null, selected)}
+        onSelect={()=>onSelect(selected)}
         setSelected={(val: string) => setSelected(val)}
         data={data}
         save='value'
-        search={true}
+        search={false}
         boxStyles={{
           borderRadius: 8,
           marginHorizontal: 8,

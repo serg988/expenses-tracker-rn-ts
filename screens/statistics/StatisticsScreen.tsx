@@ -10,34 +10,43 @@ import useTheme from '../../hooks/useTheme'
 import { periodArray, PeriodArrayType } from '../../constants/periods'
 import { Expense } from '../../types'
 import { useIsFocused } from '@react-navigation/native'
+import { SelectList } from 'react-native-dropdown-select-list'
 
 type BarLength = {
   [key: string]: number
 }
 
 function StatisticsScreen() {
-  const [period, setPeriod] = useState<PeriodArrayType>()
+  const [period, setPeriod] = useState(7)
+
   const [barLength, setBarLength] = useState<BarLength>({})
   const [maxBar, setMaxBar] = useState(1)
+  const [expensesForSomeDays, setExpensesForSomeDays] = useState<Expense[]>([])
+  const [selected, setSelected] = useState('')
+
+  const [refresh, setRefresh] = useState(true)
+
   const maxWidth = Dimensions.get('window').width
   const isFocused = useIsFocused()
-  
+
   const themeId = useTheme()
 
   const expenses = useAppSelector((state) => state.expenses.expenses)
+
   useEffect(() => {
-    setBars()
+    setBars(period)
     const arr = Object.values(barLength)
     const max = Math.max(...arr)
     setMaxBar(max)
-    setPeriod('За неделю')
-  }, [period, setPeriod, setBarLength, maxBar, isFocused])
+  }, [isFocused, period, expenses, maxBar])
 
   //Set bars lengths
-  function setBars() {
+  function setBars(period: number) {
+    const filteredByDays = filterExpensesForPeriod(period)
+
     catArray.forEach((cat) => {
-      const catData = getExpensesByCategory(cat)
-  
+      const catData = getExpensesByCategory(cat, filteredByDays)
+
       if (catData.length > 0) {
         setBarLength((prev) => {
           return { ...prev, [cat]: reduceExpenses(catData) }
@@ -49,7 +58,6 @@ function StatisticsScreen() {
       }
     })
   }
-
 
   // Filter by month-------------------------------------
 
@@ -64,18 +72,16 @@ function StatisticsScreen() {
   // Filter for last SOME days
   function filterExpensesForPeriod(days = 0) {
     const recentExpenses = expenses.filter((expense) => {
-      if (period === 'За неделю') days = 7
-      if (period === 'За месяц') days = 30
-      if (period === 'За год') days = 365
       const today = new Date()
-      const someDaysAgo = getDateMinusDays(today, days)
+      const someDaysAgo = getDateMinusDays(today, period)
       return expense.date > someDaysAgo
     })
+
     return recentExpenses
   }
 
   // Filter by CATEGORY-----------------------------------
-  function getExpensesByCategory(category: CatArrayType) {
+  function getExpensesByCategory(category: CatArrayType, expenses: Expense[]) {
     const filteredByCat = expenses.filter((c) => c.category === category)
     return filteredByCat
   }
@@ -91,30 +97,21 @@ function StatisticsScreen() {
 
   //-----------------------------------------
 
-
-  const data = periodArray.map((p) => {
-    return { key: p, value: p }
-  })
-
   const styles = StyleSheet.create({
     selectContainer: {
       marginBottom: 20,
     },
     scrollContainer: {
-      // backgroundColor: 'yellow',
       height: '100%',
     },
     chartContainer: {
       flex: 1,
-      // flexDirection: 'row',
     },
     barContainer: {
       flexDirection: 'row',
       alignItems: 'center',
     },
     bar: {
-      // flex: 1,
-      // margin: 10,
       justifyContent: 'center',
       marginLeft: 0,
       marginBottom: 27,
@@ -131,9 +128,19 @@ function StatisticsScreen() {
       color: COLORS(themeId).primary50,
     },
     amountText: {
-      fontSize: 10
-    }
+      fontSize: 10,
+    },
   })
+
+  function setPeriodHandler(val: number) {
+    console.log(
+      '🚀 ~ file: StatisticsScreen.tsx:140 ~ setPeriodHandler ~ val',
+      val
+    )
+
+    setPeriod(val)
+    // setRefresh((prev) => !prev)
+  }
 
   let chart: ReactNode
 
@@ -148,28 +155,71 @@ function StatisticsScreen() {
             style={[
               styles.bar,
               {
-                width: (barLength[cat] / maxBar) * maxWidth || 1,
-                maxWidth: Dimensions.get('window').width * 0.8,
-                minWidth: 30
+                width:
+                  barLength[cat] && maxBar
+                    ? (barLength[cat] / maxBar) * maxWidth
+                    : // ? (Math.pow(barLength[cat], 1.5) / Math.pow(maxBar, 1.5)) *
+                      //   maxWidth
+                      0,
+                maxWidth: Dimensions.get('window').width * 0.95,
+                minWidth: 30,
               },
-              // { width: Dimensions.get('window').width * Math.random() * 0.8 },
             ]}
-          ><Text style={styles.amountText}>{barLength[cat]}</Text></View>
+          >
+            <Text style={styles.amountText}>{barLength[cat]}</Text>
+          </View>
         </View>
       </View>
     ))
   }
 
+  // const data = periodArray.map((p) => {
+  //   return { key: p, value: p }
+  // })
+
+  const data = [
+    { value: 'Сегодня', key: 1 },
+    { value: 'За неделю', key: 7 },
+    { value: 'За месяц', key: 30 },
+    { value: 'За год', key: 365 },
+  ]
+
   return (
     <View>
       <View style={styles.selectContainer}>
-        <Select
+        {/* <Select
           data={data}
           onSelect={(selected) => {
             //@ts-ignore
-            setPeriod(selected)
+            setPeriodHandler(selected)
           }}
           defaultOption={{ key: 'За неделю', value: 'За неделю' }}
+        /> */}
+
+        <SelectList
+          onSelect={() => setBars(period)}
+          setSelected={(val: number) => setPeriodHandler(val)}
+          data={data}
+          save='key'
+          search={false}
+          boxStyles={{
+            borderRadius: 8,
+            marginHorizontal: 8,
+            marginTop: 10,
+            backgroundColor: COLORS(themeId).primary100,
+          }}
+          inputStyles={{
+            color: COLORS(themeId).primary700,
+            fontSize: 18,
+          }}
+          dropdownTextStyles={{
+            color: COLORS(themeId).primary500,
+            backgroundColor: COLORS(themeId).primary50,
+            marginHorizontal: 8,
+            padding: 8,
+            borderRadius: 8,
+          }}
+          defaultOption={{ key: 7, value: 'За неделю' }}
         />
       </View>
 
