@@ -115,9 +115,10 @@ function StatisticsScreen() {
     bar: {
       // flex: 1,
       // margin: 10,
+      justifyContent: 'center',
       marginLeft: 0,
       marginBottom: 27,
-      padding: 10,
+      padding: 1,
       height: 35,
       backgroundColor: 'yellow',
       borderTopRightRadius: 20,
@@ -149,7 +150,7 @@ function StatisticsScreen() {
               {
                 width: (barLength[cat] / maxBar) * maxWidth || 1,
                 maxWidth: Dimensions.get('window').width * 0.8,
-                minWidth: 50
+                minWidth: 30
               },
               // { width: Dimensions.get('window').width * Math.random() * 0.8 },
             ]}

@@ -56,7 +56,7 @@ function ExpenseItem({ expense }: Props) {
       justifyContent: 'center',
       alignItems: 'center',
       borderRadius: 4,
-      minWidth: 40,
+      minWidth: 50,
       marginLeft: 10,
     },
     amountText: {
