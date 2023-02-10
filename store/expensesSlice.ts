@@ -23,12 +23,14 @@ let token: string
 export const fetchExpenses = createAsyncThunk<
   Expense[],
   void,
-  { rejectValue: string, state: {auth: {token: string}} }
-  >('expenses/fetchExpenses', async function (_, { getState, rejectWithValue }) {
-    const { auth } = getState()
-    token = auth.token
+  { rejectValue: string; state: { auth: { token: string } } }
+>('expenses/fetchExpenses', async function (_, { getState, rejectWithValue }) {
+  const { auth } = getState()
+  token = auth.token
   try {
-    const response = await axios.get(BACKEND_URL + '/expenses.json?auth=' + token)
+    const response = await axios.get(
+      BACKEND_URL + '/expenses.json?auth=' + token
+    )
     const expenses = []
 
     for (const key in response.data) {
@@ -37,7 +39,7 @@ export const fetchExpenses = createAsyncThunk<
         amount: response.data[key].amount,
         description: response.data[key].description,
         date: new Date(response.data[key].date),
-        category: response.data[key].category
+        category: response.data[key].category,
       }
       expenses.push(expenseObj)
       expenses.sort(function (a, b) {
@@ -53,10 +55,10 @@ export const fetchExpenses = createAsyncThunk<
 export const addNewExpense = createAsyncThunk<
   Expense,
   Expense,
-  { rejectValue: string}
+  { rejectValue: string }
 >(
   'expenses/addNewExpense',
-  async function (expense: Expense, { rejectWithValue}) {
+  async function (expense: Expense, { rejectWithValue }) {
     try {
       const response = await axios.post(
         BACKEND_URL + '/expenses.json?auth=' + token,
@@ -73,19 +75,18 @@ export const updateExpense = createAsyncThunk<
   Expense,
   Expense,
   { rejectValue: string }
-  >('expenses/updateExpense', async function (expense, { rejectWithValue }) {
+>('expenses/updateExpense', async function (expense, { rejectWithValue }) {
   try {
     const { id } = expense
-  const expenseData = { ...expense, id: undefined }
-  const response = await axios.put(
-    BACKEND_URL + `/expenses/${id}.json?auth=` + token,
-    expenseData
-  )
-  return { ...response.data, id }
-  } catch (error:any) {
+    const expenseData = { ...expense, id: undefined }
+    const response = await axios.put(
+      BACKEND_URL + `/expenses/${id}.json?auth=` + token,
+      expenseData
+    )
+    return { ...response.data, id }
+  } catch (error: any) {
     return rejectWithValue(error.message)
   }
-  
 })
 
 export const deleteExpense = createAsyncThunk<
@@ -165,7 +166,7 @@ const expensesSlice = createSlice({
         state.loading = false
       })
       .addCase(deleteExpense.rejected, (state, action) => {
-        state.error = action.payload 
+        state.error = action.payload
         state.loading = false
       })
     // .addMatcher(isError, (state, action: PayloadAction<string>) => {

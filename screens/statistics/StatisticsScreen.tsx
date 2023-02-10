@@ -1,38 +1,43 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { useEffect, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import { Text, View, StyleSheet, Dimensions } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import Select from '../../components/manageExpense/Select'
-import ErrorOverlay from '../../components/ui/ErrorOverlay'
-import LoadingOverlay from '../../components/ui/LoadingOverlay'
 import { CatArrayType, catArray } from '../../constants/categories'
 import { COLORS } from '../../constants/styles'
-import { fetchExpenses, resetError } from '../../store/expensesSlice'
 import { useAppSelector, useAppDispatch } from '../../store/hooks'
 import { getDateMinusDays } from '../../util/date'
 import useTheme from '../../hooks/useTheme'
 import { periodArray, PeriodArrayType } from '../../constants/periods'
 import { Expense } from '../../types'
+import { useIsFocused } from '@react-navigation/native'
+
+type BarLength = {
+  [key: string]: number
+}
 
 function StatisticsScreen() {
   const [period, setPeriod] = useState<PeriodArrayType>()
-  const [barLength, setBarLength] = useState({})
-  console.log("🚀 ~ file: StatisticsScreen.tsx:20 ~ StatisticsScreen ~ barLength", barLength)
+  const [barLength, setBarLength] = useState<BarLength>({})
+  const [maxBar, setMaxBar] = useState(1)
+  const maxWidth = Dimensions.get('window').width
+  const isFocused = useIsFocused()
   
-
-  const dispatch = useAppDispatch()
   const themeId = useTheme()
 
   const expenses = useAppSelector((state) => state.expenses.expenses)
   useEffect(() => {
     setBars()
-  }, [period])
+    const arr = Object.values(barLength)
+    const max = Math.max(...arr)
+    setMaxBar(max)
+    setPeriod('За неделю')
+  }, [period, setPeriod, setBarLength, maxBar, isFocused])
 
   //Set bars lengths
   function setBars() {
     catArray.forEach((cat) => {
       const catData = getExpensesByCategory(cat)
-      // console.log("🚀 ~ file: StatisticsScreen.tsx:35 ~ catArray.forEach ~ catData", catData)
+  
       if (catData.length > 0) {
         setBarLength((prev) => {
           return { ...prev, [cat]: reduceExpenses(catData) }
@@ -42,13 +47,9 @@ function StatisticsScreen() {
           return { ...prev, [cat]: 0 }
         })
       }
-      
-      let length = 1
-      
-      //TODO-------------------------------------
-      
     })
   }
+
 
   // Filter by month-------------------------------------
 
@@ -78,7 +79,6 @@ function StatisticsScreen() {
     const filteredByCat = expenses.filter((c) => c.category === category)
     return filteredByCat
   }
-    
 
   //Reduce selected expenses-------------------
   function reduceExpenses(expenses: Expense[]) {
@@ -91,18 +91,6 @@ function StatisticsScreen() {
 
   //-----------------------------------------
 
-  const loading = useAppSelector((state) => state.expenses.loading)
-  const error = useAppSelector((state) => state.expenses.error)
-
-  if (error) {
-    return (
-      <ErrorOverlay message={error} onConfirm={() => dispatch(resetError())} />
-    )
-  }
-
-  if (loading) {
-    return <LoadingOverlay />
-  }
 
   const data = periodArray.map((p) => {
     return { key: p, value: p }
@@ -126,47 +114,50 @@ function StatisticsScreen() {
     },
     bar: {
       // flex: 1,
-      margin: 10,
+      // margin: 10,
       marginLeft: 0,
       marginBottom: 27,
       padding: 10,
-      height: 45,
+      height: 35,
       backgroundColor: 'yellow',
       borderTopRightRadius: 20,
       borderBottomRightRadius: 20,
     },
     labelContainer: {
-      minWidth: '15%',
+      paddingLeft: 3,
     },
     legend: {
       color: COLORS(themeId).primary50,
     },
+    amountText: {
+      fontSize: 10
+    }
   })
 
-  // switch (period) {
-  //   case 'За неделю':
-  //     return
-  // }
+  let chart: ReactNode
 
-  const chart = catArray.map((cat) => (
-    <View key={cat}>
-      <View style={styles.barContainer}>
-        <View
-          style={[
-            styles.bar,
-            {
-              width: barLength[cat],
-              maxWidth: Dimensions.get('window').width * 0.8,
-            },
-            // { width: Dimensions.get('window').width * Math.random() * 0.8 },
-          ]}
-        ></View>
+  if (barLength) {
+    chart = catArray.map((cat) => (
+      <View key={cat}>
         <View style={styles.labelContainer}>
           <Text style={styles.legend}>{cat}</Text>
         </View>
+        <View style={styles.barContainer}>
+          <View
+            style={[
+              styles.bar,
+              {
+                width: (barLength[cat] / maxBar) * maxWidth || 1,
+                maxWidth: Dimensions.get('window').width * 0.8,
+                minWidth: 50
+              },
+              // { width: Dimensions.get('window').width * Math.random() * 0.8 },
+            ]}
+          ><Text style={styles.amountText}>{barLength[cat]}</Text></View>
+        </View>
       </View>
-    </View>
-  ))
+    ))
+  }
 
   return (
     <View>
