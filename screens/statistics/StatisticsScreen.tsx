@@ -7,7 +7,6 @@ import { COLORS } from '../../constants/styles'
 import { useAppSelector, useAppDispatch } from '../../store/hooks'
 import { getDateMinusDays } from '../../util/date'
 import useTheme from '../../hooks/useTheme'
-import { periodArray, PeriodArrayType } from '../../constants/periods'
 import { Expense } from '../../types'
 import { useIsFocused } from '@react-navigation/native'
 import { SelectList } from 'react-native-dropdown-select-list'
@@ -21,11 +20,7 @@ function StatisticsScreen() {
 
   const [barLength, setBarLength] = useState<BarLength>({})
   const [maxBar, setMaxBar] = useState(1)
-  const [expensesForSomeDays, setExpensesForSomeDays] = useState<Expense[]>([])
-  const [selected, setSelected] = useState('')
-
-  const [refresh, setRefresh] = useState(true)
-
+ 
   const maxWidth = Dimensions.get('window').width
   const isFocused = useIsFocused()
 
@@ -35,10 +30,15 @@ function StatisticsScreen() {
 
   useEffect(() => {
     setBars(period)
+  }, [isFocused, period, expenses])
+  useEffect(() => {
+    getMax()
+  }, [barLength])
+  function getMax() {
     const arr = Object.values(barLength)
     const max = Math.max(...arr)
     setMaxBar(max)
-  }, [isFocused, period, expenses, maxBar])
+  }
 
   //Set bars lengths
   function setBars(period: number) {
@@ -132,16 +132,6 @@ function StatisticsScreen() {
     },
   })
 
-  function setPeriodHandler(val: number) {
-    console.log(
-      '🚀 ~ file: StatisticsScreen.tsx:140 ~ setPeriodHandler ~ val',
-      val
-    )
-
-    setPeriod(val)
-    // setRefresh((prev) => !prev)
-  }
-
   let chart: ReactNode
 
   if (barLength) {
@@ -187,18 +177,10 @@ function StatisticsScreen() {
   return (
     <View>
       <View style={styles.selectContainer}>
-        {/* <Select
-          data={data}
-          onSelect={(selected) => {
-            //@ts-ignore
-            setPeriodHandler(selected)
-          }}
-          defaultOption={{ key: 'За неделю', value: 'За неделю' }}
-        /> */}
 
         <SelectList
           onSelect={() => setBars(period)}
-          setSelected={(val: number) => setPeriodHandler(val)}
+          setSelected={(val: number) => setPeriod(val)}
           data={data}
           save='key'
           search={false}
