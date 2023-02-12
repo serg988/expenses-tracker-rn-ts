@@ -1,5 +1,5 @@
 import { ReactNode, useEffect, useState } from 'react'
-import { Text, View, StyleSheet, Dimensions } from 'react-native'
+import { Text, View, StyleSheet, Dimensions, Pressable } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import Select from '../../components/manageExpense/Select'
 import { CatArrayType, catArray } from '../../constants/categories'
@@ -15,12 +15,12 @@ type BarLength = {
   [key: string]: number
 }
 
-function StatisticsScreen() {
+function StatisticsScreen({ navigation }: any) {
   const [period, setPeriod] = useState(7)
 
   const [barLength, setBarLength] = useState<BarLength>({})
   const [maxBar, setMaxBar] = useState(1)
- 
+
   const maxWidth = Dimensions.get('window').width
   const isFocused = useIsFocused()
 
@@ -31,9 +31,11 @@ function StatisticsScreen() {
   useEffect(() => {
     setBars(period)
   }, [isFocused, period, expenses])
+
   useEffect(() => {
     getMax()
   }, [barLength])
+
   function getMax() {
     const arr = Object.values(barLength)
     const max = Math.max(...arr)
@@ -93,6 +95,10 @@ function StatisticsScreen() {
       return sum + expense
     }, 0)
     return expensesSum
+  }
+
+  function pressHandler(cat: CatArrayType) {
+    navigation.navigate('MonthlyStatistics', {cat: cat}) //TODO------------
   }
 
   //-----------------------------------------
@@ -156,7 +162,28 @@ function StatisticsScreen() {
               },
             ]}
           >
-            <Text style={styles.amountText}>{barLength[cat]}</Text>
+            <View
+              style={{
+                borderTopRightRadius: 20,
+                borderBottomRightRadius: 20,
+                height: 35,
+                overflow: 'hidden',
+              }}
+            >
+              <Pressable
+                style={{
+                  height: 35,
+                  overflow: 'hidden',
+                  justifyContent: 'center',
+                }}
+                android_ripple={{
+                  color: '#dcdf19',
+                }}
+                onPress={pressHandler.bind(null, cat)}
+              >
+                <Text style={styles.amountText}>{barLength[cat]}</Text>
+              </Pressable>
+            </View>
           </View>
         </View>
       </View>
@@ -177,7 +204,6 @@ function StatisticsScreen() {
   return (
     <View>
       <View style={styles.selectContainer}>
-
         <SelectList
           onSelect={() => setBars(period)}
           setSelected={(val: number) => setPeriod(val)}

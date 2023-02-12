@@ -27,6 +27,7 @@ import Logout from './screens/auth/Logout'
 import useTheme from './hooks/useTheme'
 import { setTheme } from './store/settingsSlice'
 import StatisticsScreen from './screens/statistics/StatisticsScreen'
+import MonthlyStatisticsScreen from './screens/statistics/MonthlyStatisticsScreen'
 
 const Stack = createNativeStackNavigator<any>()
 const BottomTabs = createBottomTabNavigator<BottomTabNavigatorParamList>()
@@ -208,6 +209,11 @@ function MainNavigation() {
       <Stack.Screen
         name='ExpensesOverview'
         component={ExpensesOverview}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name='MonthlyStatistics'
+        component={MonthlyStatisticsScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen name='ManageExpense' component={ManageExpense} />
