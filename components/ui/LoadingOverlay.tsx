@@ -1,13 +1,13 @@
 import { View, ActivityIndicator, Text, StyleSheet } from 'react-native'
 import { COLORS } from '../../constants/styles'
-import useTheme from '../../hooks/useTheme'
+import useColor from '../../hooks/useColor'
 
 interface Props {
   message?: string
 }
 
 function LoadingOverlay({ message }: Props) {
-  const themeId = useTheme()
+  const themeId = useColor()
   const styles = StyleSheet.create({
     container: {
       flex: 1,

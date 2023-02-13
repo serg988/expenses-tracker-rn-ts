@@ -4,12 +4,12 @@ import { ScrollView, View, Text, Button, StyleSheet } from 'react-native'
 import { RadioButton } from 'react-native-paper'
 import { COLORS } from '../constants/styles'
 import { setTheme } from '../store/settingsSlice'
-import useTheme from '../hooks/useTheme'
+import useColor from '../hooks/useColor'
 import { useAppSelector } from '../hooks/hooks'
 
 const SettingsScreen = ({ navigation }: any) => {
   const colorTheme = useAppSelector((state) => state.settings.themeId)
-  const themeId = useTheme()
+  const themeId = useColor()
   const dispatch = useDispatch()
   const [value, setValue] = useState<SetStateAction<number>>(colorTheme)
   const [font, setFont] = useState<SetStateAction<number>>(1)

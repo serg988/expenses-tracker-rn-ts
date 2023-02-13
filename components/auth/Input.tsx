@@ -1,6 +1,6 @@
 import { View, Text, TextInput, StyleSheet } from 'react-native'
 
-import useTheme from '../../hooks/useTheme'
+import useColor from '../../hooks/useColor'
 import { COLORS } from '../../constants/styles'
 
 interface Props {
@@ -20,31 +20,30 @@ function Input({
   value,
   isInvalid,
 }: Props) {
-  const themeId = useTheme()
-  
+  const themeId = useColor()
 
-const styles = StyleSheet.create({
-  inputContainer: {
-    marginVertical: 8,
-  },
-  label: {
-    color: COLORS(themeId).primary50,
-    marginBottom: 4,
-  },
-  labelInvalid: {
-    color: COLORS(themeId).error500,
-  },
-  input: {
-    paddingVertical: 8,
-    paddingHorizontal: 6,
-    backgroundColor: COLORS(themeId).primary100,
-    borderRadius: 4,
-    fontSize: 16,
-  },
-  inputInvalid: {
-    backgroundColor: COLORS(themeId).error50,
-  },
-})
+  const styles = StyleSheet.create({
+    inputContainer: {
+      marginVertical: 8,
+    },
+    label: {
+      color: COLORS(themeId).primary50,
+      marginBottom: 4,
+    },
+    labelInvalid: {
+      color: COLORS(themeId).error500,
+    },
+    input: {
+      paddingVertical: 8,
+      paddingHorizontal: 6,
+      backgroundColor: COLORS(themeId).primary100,
+      borderRadius: 4,
+      fontSize: 16,
+    },
+    inputInvalid: {
+      backgroundColor: COLORS(themeId).error50,
+    },
+  })
   return (
     <View style={styles.inputContainer}>
       <Text style={[styles.label, isInvalid && styles.labelInvalid]}>
@@ -61,10 +60,6 @@ const styles = StyleSheet.create({
       />
     </View>
   )
-
-
-
 }
 
 export default Input
-

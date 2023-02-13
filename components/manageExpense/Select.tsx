@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 
 import { COLORS } from '../../constants/styles'
-import useTheme from '../../hooks/useTheme'
+import useColor from '../../hooks/useColor'
 import { SelectList } from 'react-native-dropdown-select-list'
 import { catArray, CatArrayType } from '../../constants/categories'
 import { PeriodArrayType } from '../../constants/periods'
@@ -14,13 +14,13 @@ interface Props {
 }
 
 function Select({ onSelect, data, defaultOption }: Props) {
-  const themeId = useTheme()
+  const themeId = useColor()
   const [selected, setSelected] = useState('')
 
   return (
     <View>
       <SelectList
-        onSelect={()=>onSelect(selected)}
+        onSelect={() => onSelect(selected)}
         setSelected={(val: string) => setSelected(val)}
         data={data}
         save='value'

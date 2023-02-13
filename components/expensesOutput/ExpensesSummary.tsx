@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native'
 import { COLORS } from '../../constants/styles'
-import useTheme from '../../hooks/useTheme'
+import useColor from '../../hooks/useColor'
 import { Expense } from '../../types'
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
 }
 
 function ExpensesSummary({ expenses, periodName }: Props) {
-  const themeId = useTheme()
+  const themeId = useColor()
 
   const styles = StyleSheet.create({
     container: {

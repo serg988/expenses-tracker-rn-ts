@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, Pressable } from 'react-native'
 import { COLORS } from '../../constants/styles'
-import useTheme from '../../hooks/useTheme'
+import useColor from '../../hooks/useColor'
 
 interface Props {
   children: string
@@ -10,7 +10,7 @@ interface Props {
 }
 
 function Button({ children, onPress, mode, style }: Props) {
-  const themeId = useTheme()
+  const themeId = useColor()
 
   const styles = StyleSheet.create({
     button: {

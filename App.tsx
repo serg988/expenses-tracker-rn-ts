@@ -24,7 +24,7 @@ import { authenticate } from './store/authSlice'
 import SettingsScreen from './screens/SettingsScreen'
 import Logout from './screens/auth/Logout'
 
-import useTheme from './hooks/useTheme'
+import useTheme from './hooks/useColor'
 import { setTheme } from './store/settingsSlice'
 import StatisticsScreen from './screens/statistics/StatisticsScreen'
 import MonthlyStatisticsScreen from './screens/statistics/MonthlyStatisticsScreen'
@@ -195,7 +195,7 @@ function ExpensesOverview() {
 
 //------------------MAIN NAVIGATOR STACK-------------------------------------
 
-function MainNavigation() {
+function MainNavigation({navigation, route}: any) {
   const themeId = useTheme()
   return (
     <Stack.Navigator
@@ -214,7 +214,19 @@ function MainNavigation() {
       <Stack.Screen
         name='MonthlyStatistics'
         component={MonthlyStatisticsScreen}
-        options={{ headerShown: false }}
+        options={
+          ({ route }) => ({ title: `${route?.params?.cat} - статистика по месяцам` })
+          // headerShown: true,
+          // title: 'Статистика по месяцам',
+          // headerLeft: ({ tintColor }) => (
+          //   <IconButton
+          //     icon='menu'
+          //     size={24}
+          //     color={tintColor || COLORS(themeId).primary50}
+          //     onPress={() => navigation.openDrawer()}
+          //   />
+          // ),
+        }
       />
       <Stack.Screen name='ManageExpense' component={ManageExpense} />
     </Stack.Navigator>

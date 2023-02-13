@@ -12,7 +12,7 @@ import type { CredentialsSignup } from '../../types'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import useTheme from '../../hooks/useTheme'
+import useColor from '../../hooks/useColor'
 
 interface Props {
   isLogin: boolean
@@ -33,7 +33,7 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }: Props) {
   const [enteredPassword, setEnteredPassword] = useState('')
   const [enteredConfirmPassword, setEnteredConfirmPassword] = useState('')
   const [rem, setRem] = useState(true)
-  const themeId = useTheme()
+  const themeId = useColor()
 
   // const remember = useAppSelector((state) => state.auth.remember)
   const remember = async () => await AsyncStorage.getItem('remember')

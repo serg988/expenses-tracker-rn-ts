@@ -5,7 +5,7 @@ import Button from '../ui/Button'
 import Input from './Input'
 import { Expense } from '../../types'
 import { COLORS } from '../../constants/styles'
-import useTheme from '../../hooks/useTheme'
+import useColor from '../../hooks/useColor'
 import Select from './Select'
 import { catArray, CatArrayType } from '../../constants/categories'
 
@@ -30,7 +30,7 @@ function ExpenseForm({
   onSubmit,
   defaultValues,
 }: Props) {
-  const themeId = useTheme()
+  const themeId = useColor()
   const [input, setInput] = useState({
     amount: {
       value: defaultValues ? defaultValues.amount.toString() : '',

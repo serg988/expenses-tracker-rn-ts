@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet } from 'react-native'
 import { COLORS } from '../../constants/styles'
-import useTheme from '../../hooks/useTheme'
+import useColor from '../../hooks/useColor'
 import Button from './Button'
 
 interface Props {
@@ -9,7 +9,7 @@ interface Props {
 }
 
 function ErrorOverlay({ message, onConfirm }: Props) {
-  const themeId = useTheme()
+  const themeId = useColor()
 
   const styles = StyleSheet.create({
     container: {
@@ -30,7 +30,6 @@ function ErrorOverlay({ message, onConfirm }: Props) {
     },
   })
 
-
   return (
     <View style={styles.container}>
       <Text style={[styles.text, styles.title]}>Error!</Text>
@@ -41,4 +40,3 @@ function ErrorOverlay({ message, onConfirm }: Props) {
 }
 
 export default ErrorOverlay
-

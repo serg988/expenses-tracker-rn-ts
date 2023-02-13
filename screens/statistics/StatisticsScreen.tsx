@@ -6,7 +6,7 @@ import { CatArrayType, catArray } from '../../constants/categories'
 import { COLORS } from '../../constants/styles'
 import { useAppSelector, useAppDispatch } from '../../store/hooks'
 import { getDateMinusDays } from '../../util/date'
-import useTheme from '../../hooks/useTheme'
+import useColor from '../../hooks/useColor'
 import { Expense } from '../../types'
 import { useIsFocused } from '@react-navigation/native'
 import { SelectList } from 'react-native-dropdown-select-list'
@@ -24,7 +24,7 @@ function StatisticsScreen({ navigation }: any) {
   const maxWidth = Dimensions.get('window').width
   const isFocused = useIsFocused()
 
-  const themeId = useTheme()
+  const themeId = useColor()
 
   const expenses = useAppSelector((state) => state.expenses.expenses)
 
@@ -61,15 +61,7 @@ function StatisticsScreen({ navigation }: any) {
     })
   }
 
-  // Filter by month-------------------------------------
-
-  const dates = expenses.map((e) => e.date.getMonth() + 1)
-  function getExpensesByMonth(month: number) {
-    const filteredByMonth = expenses.filter(
-      (e) => e.date.getMonth() === month - 1
-    )
-    return filteredByMonth
-  }
+  
 
   // Filter for last SOME days
   function filterExpensesForPeriod(days = 0) {
@@ -98,7 +90,7 @@ function StatisticsScreen({ navigation }: any) {
   }
 
   function pressHandler(cat: CatArrayType) {
-    navigation.navigate('MonthlyStatistics', {cat: cat}) //TODO------------
+    navigation.navigate('MonthlyStatistics', { cat: cat }) //
   }
 
   //-----------------------------------------

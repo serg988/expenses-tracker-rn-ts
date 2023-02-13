@@ -7,7 +7,7 @@ import ErrorOverlay from '../../components/ui/ErrorOverlay'
 import IconButton from '../../components/ui/IconButton'
 import LoadingOverlay from '../../components/ui/LoadingOverlay'
 import { COLORS } from '../../constants/styles'
-import useTheme from '../../hooks/useTheme'
+import useColor from '../../hooks/useColor'
 import {
   addNewExpense,
   deleteExpense,
@@ -20,7 +20,7 @@ import store from '../../store/store'
 // import { storeExpense } from '../util/http'
 
 function ManageExpense({ route, navigation }: any) {
-  const themeId = useTheme()
+  const themeId = useColor()
   const id: string = route.params?.id
   const isEditing = !!id
   const dispatch = useAppDispatch()

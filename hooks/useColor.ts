@@ -14,7 +14,7 @@ export type ColorTheme = {
   gray700: string
 }
 
-export default function useTheme() {
+export default function useColor() {
   const themeId = useAppSelector((state) => state.settings.themeId)
   return themeId
 }

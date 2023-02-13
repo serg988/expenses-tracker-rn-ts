@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TextInput, StyleProp } from 'react-native'
 import { COLORS } from '../../constants/styles'
-import useTheme from '../../hooks/useTheme'
+import useColor from '../../hooks/useColor'
 
 // DateTimePickerAndroid.open(params: AndroidNativeProps)
 // DateTimePickerAndroid.dismiss(mode: AndroidNativeProps['mode'])
@@ -20,7 +20,7 @@ interface Props {
 }
 
 function Input({ label, textInputConfig, invalid, style }: Props) {
-  const themeId = useTheme()
+  const themeId = useColor()
 
   const styles = StyleSheet.create({
     inputContainer: {
