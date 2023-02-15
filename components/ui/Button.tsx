@@ -6,10 +6,10 @@ interface Props {
   children: string
   onPress: () => void
   mode?: 'flat'
-  style?: {}
+  outsideStyle?: {}
 }
 
-function Button({ children, onPress, mode, style }: Props) {
+function Button({ children, onPress, mode, outsideStyle }: Props) {
   const themeId = useColor()
 
   const styles = StyleSheet.create({
@@ -36,12 +36,19 @@ function Button({ children, onPress, mode, style }: Props) {
   })
 
   return (
-    <View style={style}>
+    <View style={outsideStyle}>
       <Pressable
         onPress={onPress}
         style={({ pressed }) => pressed && styles.pressed}
       >
-        <View style={[styles.button, mode === 'flat' && styles.flat]}>
+        <View
+          style={[
+            // outsideStyle,
+            styles.button,
+            mode === 'flat' && styles.flat,
+            outsideStyle,
+          ]}
+        >
           <Text style={[styles.buttonText, mode === 'flat' && styles.flatText]}>
             {children}
           </Text>

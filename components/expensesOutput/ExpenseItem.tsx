@@ -4,6 +4,7 @@ import { COLORS } from '../../constants/styles'
 import useColor from '../../hooks/useColor'
 import { Expense } from '../../types'
 import { getFormattedDate } from '../../util/date'
+import Button from '../ui/Button'
 
 interface Props {
   expense: Expense
@@ -16,6 +17,12 @@ function ExpenseItem({ expense }: Props) {
   const styles = StyleSheet.create({
     pressed: {
       opacity: 0.75,
+    },
+    button: {
+      backgroundColor: COLORS(themeId).accent500,
+      // paddingHorizontal: 3,
+      borderRadius: 24,
+      overflow: 'hidden',
     },
     item: {
       padding: 8,
@@ -91,9 +98,15 @@ function ExpenseItem({ expense }: Props) {
           </Text>
           <View style={styles.catDateContainer}>
             <View style={styles.catContainer}>
-              <Text style={[styles.textBase, styles.category]}>
+              <Button outsideStyle={styles.button} onPress={() => {navigation.navigate('MonthlyStatistics', {cat: expense.category})}}>
+                {expense.category}
+              </Button>
+              {/* <Pressable>
+                <Text style={[styles.textBase, styles.category]}>
                 {expense.category}
               </Text>
+              </Pressable>
+               */}
             </View>
 
             <Text style={styles.textBase}>

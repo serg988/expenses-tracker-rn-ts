@@ -29,6 +29,11 @@ import { setTheme } from './store/settingsSlice'
 import StatisticsScreen from './screens/statistics/StatisticsScreen'
 import MonthlyStatisticsScreen from './screens/statistics/MonthlyStatisticsScreen'
 
+import { PersistGate } from 'redux-persist/integration/react'
+import { persistStore } from 'redux-persist'
+
+let persistor = persistStore(store)
+
 const Stack = createNativeStackNavigator<any>()
 const BottomTabs = createBottomTabNavigator<BottomTabNavigatorParamList>()
 const Drawer = createDrawerNavigator<any>()
@@ -288,9 +293,11 @@ export default function App() {
     <>
       <StatusBar style='auto' />
       <Provider store={store}>
-        <NavigationContainer>
-          <Root />
-        </NavigationContainer>
+        <PersistGate loading={null} persistor={persistor}>
+          <NavigationContainer>
+            <Root />
+          </NavigationContainer>
+        </PersistGate>
       </Provider>
     </>
   )
