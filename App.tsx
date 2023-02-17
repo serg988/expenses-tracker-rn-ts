@@ -13,8 +13,8 @@ import { COLORS } from './constants/styles'
 
 import { Ionicons } from '@expo/vector-icons'
 import IconButton from './components/ui/IconButton'
-import { Provider } from 'react-redux'
-import store from './store/store'
+import { Provider, useDispatch } from 'react-redux'
+import store, { persistor } from './store/store'
 import LoginScreen from './screens/auth/LoginScreen'
 import SignupScreen from './screens/auth/SignupScreen'
 import { useAppDispatch, useAppSelector } from './store/hooks'
@@ -30,9 +30,7 @@ import StatisticsScreen from './screens/statistics/StatisticsScreen'
 import MonthlyStatisticsScreen from './screens/statistics/MonthlyStatisticsScreen'
 
 import { PersistGate } from 'redux-persist/integration/react'
-import { persistStore } from 'redux-persist'
-
-let persistor = persistStore(store)
+import { fetchExpenses } from './store/expensesSlice'
 
 const Stack = createNativeStackNavigator<any>()
 const BottomTabs = createBottomTabNavigator<BottomTabNavigatorParamList>()
@@ -200,7 +198,7 @@ function ExpensesOverview() {
 
 //------------------MAIN NAVIGATOR STACK-------------------------------------
 
-function MainNavigation({navigation, route}: any) {
+function MainNavigation({ navigation, route }: any) {
   const themeId = useTheme()
   return (
     <Stack.Navigator
@@ -220,7 +218,9 @@ function MainNavigation({navigation, route}: any) {
         name='MonthlyStatistics'
         component={MonthlyStatisticsScreen}
         options={
-          ({ route }) => ({ title: `${route?.params?.cat} - статистика по месяцам` })
+          ({ route }) => ({
+            title: `${route?.params?.cat} - статистика по месяцам`,
+          })
           // headerShown: true,
           // title: 'Статистика по месяцам',
           // headerLeft: ({ tintColor }) => (
@@ -262,6 +262,10 @@ function Root() {
   const limit = 30
 
   useEffect(() => {
+    dispatch(fetchExpenses())
+  }, [token])
+
+  useEffect(() => {
     const interval = setInterval(() => {
       setTimer((prev) => (prev += 1))
     }, 3000)
@@ -286,6 +290,7 @@ function Root() {
   }, [])
 
   return <>{!token || ttl < limit ? <AuthStack /> : <DrawerNavigation />}</>
+  // return <>{!token || ttl < limit ? <AuthStack /> : <DrawerNavigation />}</>
 }
 
 export default function App() {

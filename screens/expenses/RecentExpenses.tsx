@@ -9,26 +9,31 @@ import ErrorOverlay from '../../components/ui/ErrorOverlay'
 import { getAsyncStorageData } from '../../util/auth'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
+import { REHYDRATE } from 'redux-persist'
+
 function RecentExpenses({ navigation }: any) {
   const dispatch = useAppDispatch()
 
   const expenses = useAppSelector((state) => state.expenses.expenses)
+  const transformedExpenses = expenses.map(e=>({...e, date: new Date(e.date)}))
+
   const loading = useAppSelector((state) => state.expenses.loading)
 
-  // const ttd = useAppSelector((state) => state.auth.ttd)
   const error = useAppSelector((state) => state.expenses.error)
 
-  useEffect(() => {
-    dispatch(fetchExpenses())
-  }, [])
+  // useEffect(() => {
+  //   dispatch(fetchExpenses())
+  // }, [])
 
-  const recentExpenses = expenses.filter((expense) => {
+  const recentExpenses = transformedExpenses.filter((expense) => {
     const today = new Date()
     const date7ago = getDateMinusDays(today, 7)
-
-    return expense.date > date7ago
+    const dateObj = new Date(expense.date)
+    return dateObj > date7ago
   })
-
+  
+  // console.log("🚀 ~ file: RecentExpenses.tsx:33 ~ recentExpenses ~ expenses", expenses)
+ 
   if (error) {
     return (
       <ErrorOverlay message={error} onConfirm={() => dispatch(resetError())} />

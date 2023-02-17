@@ -98,7 +98,14 @@ function ExpenseItem({ expense }: Props) {
           </Text>
           <View style={styles.catDateContainer}>
             <View style={styles.catContainer}>
-              <Button outsideStyle={styles.button} onPress={() => {navigation.navigate('MonthlyStatistics', {cat: expense.category})}}>
+              <Button
+                outsideStyle={styles.button}
+                onPress={() => {
+                  navigation.navigate('MonthlyStatistics', {
+                    cat: expense.category,
+                  })
+                }}
+              >
                 {expense.category}
               </Button>
               {/* <Pressable>

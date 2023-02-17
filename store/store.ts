@@ -6,6 +6,7 @@ import settingsSlice from './settingsSlice'
 
 import { combineReducers } from 'redux'
 import { persistReducer } from 'redux-persist'
+import { persistStore } from 'redux-persist'
 
 const reducers = combineReducers({
   expenses: expensesSlice,
@@ -16,7 +17,7 @@ const reducers = combineReducers({
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['counter'],
+  blacklist: ['auth', 'settings'],
 }
 
 const persistedReducer = persistReducer(persistConfig, reducers)
@@ -29,6 +30,7 @@ const store = configureStore({
     }),
 })
 
+export const persistor = persistStore(store)
 export default store
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch

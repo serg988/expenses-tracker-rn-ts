@@ -47,7 +47,7 @@ export type Expense = {
   category: CatArrayType
   description: string
   amount: number
-  date: Date
+  date: Date 
 }
 
 export type CredentialsSignup = {

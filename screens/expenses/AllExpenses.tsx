@@ -5,17 +5,29 @@ import ErrorOverlay from '../../components/ui/ErrorOverlay'
 import LoadingOverlay from '../../components/ui/LoadingOverlay'
 import { fetchExpenses, resetError } from '../../store/expensesSlice'
 import { useAppSelector, useAppDispatch } from '../../store/hooks'
+import { getDateMinusDays } from '../../util/date'
 
 function AllExpenses() {
   const dispatch = useAppDispatch()
 
-  useEffect(() => {
-    dispatch(fetchExpenses())
-  }, [])
+  // useEffect(() => {
+  //   dispatch(fetchExpenses())
+  // }, [])
 
   const expenses = useAppSelector((state) => state.expenses.expenses)
+  const transformedExpenses = expenses.map((e) => ({
+    ...e,
+    date: new Date(e.date),
+  }))
   const loading = useAppSelector((state) => state.expenses.loading)
   const error = useAppSelector((state) => state.expenses.error)
+
+  //  const recentExpenses = expenses.filter((expense) => {
+  //    const today = new Date()
+  //    const date7ago = getDateMinusDays(today, 365)
+
+  //    return expense.date > date7ago
+  //  })
 
   if (error) {
     return (
@@ -26,13 +38,16 @@ function AllExpenses() {
   if (loading) {
     return <LoadingOverlay />
   }
-  return (
-    <ExpensesOutput
-      expensesPeriod='Всего'
-      expenses={expenses}
-      fallbackText='Расходы не найдены.'
-    />
-  )
+
+    return (
+      <ExpensesOutput
+        expensesPeriod='Всего'
+        expenses={transformedExpenses}
+        fallbackText='Расходы не найдены.'
+      />
+    )
+ 
+  
 }
 
 export default AllExpenses
