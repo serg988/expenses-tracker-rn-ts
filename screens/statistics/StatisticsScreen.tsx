@@ -67,8 +67,8 @@ function StatisticsScreen({ navigation }: any) {
   function filterExpensesForPeriod(days = 0) {
     const recentExpenses = expenses.filter((expense) => {
       const today = new Date()
-      const someDaysAgo = getDateMinusDays(today, period)
-      return expense.date > someDaysAgo
+      const someDaysAgo = getDateMinusDays(today.toISOString(), period)
+      return new Date(expense.date) > someDaysAgo
     })
 
     return recentExpenses

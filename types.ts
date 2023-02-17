@@ -47,7 +47,7 @@ export type Expense = {
   category: CatArrayType
   description: string
   amount: number
-  date: Date 
+  date: string
 }
 
 export type CredentialsSignup = {
@@ -62,6 +62,5 @@ export type CredentialsLogin = {
   email: string
   password: string
 }
-
 
 // https://max-rn-app-default-rtdb.europe-west1.firebasedatabase.app/

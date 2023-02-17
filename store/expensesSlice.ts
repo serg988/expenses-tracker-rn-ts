@@ -38,12 +38,12 @@ export const fetchExpenses = createAsyncThunk<
         id: key,
         amount: response.data[key].amount,
         description: response.data[key].description,
-        date: new Date(response.data[key].date),
+        date: response.data[key].date,
         category: response.data[key].category,
       }
       expenses.push(expenseObj)
       expenses.sort(function (a, b) {
-        return a.date.getTime() - b.date.getTime()
+        return new Date(a.date).getTime() - new Date(b.date).getTime()
       })
     }
     return expenses.reverse()
@@ -147,7 +147,7 @@ const expensesSlice = createSlice({
 
         const updatedExpense = {
           ...action.payload,
-          date: new Date(action.payload.date),
+          date: action.payload.date,
         }
         state.expenses.unshift(updatedExpense)
         state.loading = false

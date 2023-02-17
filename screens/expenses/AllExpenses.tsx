@@ -42,7 +42,7 @@ function AllExpenses() {
     return (
       <ExpensesOutput
         expensesPeriod='Всего'
-        expenses={transformedExpenses}
+        expenses={expenses}
         fallbackText='Расходы не найдены.'
       />
     )

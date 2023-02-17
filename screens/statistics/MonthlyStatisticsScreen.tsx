@@ -70,7 +70,7 @@ function MonthlyStatisticsScreen({ route }: any) {
   function getExpensesByMonth(month: MonthsArrayType, expenses: Expense[]) {
     const monthNumber = monthsArray.indexOf(month)
     const filteredByMonth = expenses.filter(
-      (e) => e.date.getMonth() === monthNumber
+      (e) => new Date(e.date).getMonth() === monthNumber
     )
     return filteredByMonth
   }
@@ -89,7 +89,7 @@ function MonthlyStatisticsScreen({ route }: any) {
 
   // Filter by month-------------------------------------
 
-  const dates = expenses.map((e) => e.date.getMonth() + 1)
+  // const dates = expenses.map((e) => e.date.getMonth() + 1)
 
   //Reduce selected expenses-------------------
   function reduceExpenses(expenses: Expense[]) {

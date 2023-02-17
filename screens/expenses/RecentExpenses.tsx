@@ -25,9 +25,9 @@ function RecentExpenses({ navigation }: any) {
   //   dispatch(fetchExpenses())
   // }, [])
 
-  const recentExpenses = transformedExpenses.filter((expense) => {
+  const recentExpenses = expenses.filter((expense) => {
     const today = new Date()
-    const date7ago = getDateMinusDays(today, 7)
+    const date7ago = getDateMinusDays(today.toISOString(), 7)
     const dateObj = new Date(expense.date)
     return dateObj > date7ago
   })
