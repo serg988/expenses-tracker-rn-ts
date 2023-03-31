@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { COLORS } from '../../constants/styles'
 import useColor from '../../hooks/useColor'
@@ -12,6 +13,7 @@ interface Props {
 }
 
 function ExpensesOutput({ expenses, expensesPeriod, fallbackText }: Props) {
+const [period, setPeriod] = useState([]) //TODO
   const themeId = useColor()
 
   const styles = StyleSheet.create({

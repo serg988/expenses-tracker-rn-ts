@@ -39,15 +39,13 @@ function AllExpenses() {
     return <LoadingOverlay />
   }
 
-    return (
-      <ExpensesOutput
-        expensesPeriod='Всего'
-        expenses={expenses}
-        fallbackText='Расходы не найдены.'
-      />
-    )
- 
-  
+  return (
+    <ExpensesOutput
+      expensesPeriod='Всего'
+      expenses={expenses}
+      fallbackText='Расходы не найдены.'
+    />
+  )
 }
 
 export default AllExpenses

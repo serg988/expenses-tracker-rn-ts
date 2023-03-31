@@ -14,7 +14,7 @@ export type SubmitType = {
   category: CatArrayType
   amount: number
   description: string
-  date: Date
+  date: string
 }
 
 interface Props {
@@ -42,7 +42,7 @@ function ExpenseForm({
     },
     date: {
       value: defaultValues
-        ? defaultValues.date.toISOString().slice(0, 10)
+        ? defaultValues.date.toString().slice(0, 10)
         : new Date().toISOString().slice(0, 10),
       isValid: true,
     },
@@ -106,7 +106,7 @@ function ExpenseForm({
   function submitHandler() {
     const expenseData = {
       amount: +input.amount.value,
-      date: new Date(input.date.value),
+      date: input.date.value,
       description: input.description.value,
       category: input.category.value,
     }

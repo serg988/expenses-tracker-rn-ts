@@ -4,6 +4,7 @@ import useColor from '../../hooks/useColor'
 
 interface Props {
   children: string
+  style: {}
   onPress: () => void
   mode?: 'flat'
   outsideStyle?: {}

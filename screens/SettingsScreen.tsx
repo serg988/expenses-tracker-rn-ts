@@ -53,7 +53,7 @@ const SettingsScreen = ({ navigation }: any) => {
       >
         <RadioButton.Item
           color={COLORS(themeId).accent500}
-          label='1'
+          label='Синяя'
           value={'0'}
         />
         <RadioButton.Item
