@@ -30,7 +30,7 @@ import StatisticsScreen from './screens/statistics/StatisticsScreen'
 import MonthlyStatisticsScreen from './screens/statistics/MonthlyStatisticsScreen'
 
 import { PersistGate } from 'redux-persist/integration/react'
-import { fetchExpenses } from './store/expensesSlice'
+import { fetchCategories, fetchExpenses } from './store/expensesSlice'
 
 const Stack = createNativeStackNavigator<any>()
 const BottomTabs = createBottomTabNavigator<BottomTabNavigatorParamList>()
@@ -263,6 +263,8 @@ function Root() {
 
   useEffect(() => {
     dispatch(fetchExpenses())
+    dispatch(fetchCategories())
+
   }, [token])
 
   useEffect(() => {

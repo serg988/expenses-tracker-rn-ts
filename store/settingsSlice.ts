@@ -13,9 +13,8 @@ type initialState = {
 
 const initialState: initialState = {
   fontSize: 'normal',
-  themeId: 1
+  themeId: 1,
 }
-
 
 //<+><-><+><-><+><-><+><-><+><-><+><-><+><-><+><-><+><-><+><-><+><-><+><->
 const settingsSlice = createSlice({
@@ -33,13 +32,9 @@ const settingsSlice = createSlice({
       state.themeId = action.payload
       AsyncStorage.setItem('colorTheme', action.payload.toString())
     },
-
-   
   },
   //<+><-><+><-><+><-><+><-><+><-><+><-><+><-><+><-><+><-><+><-><+><-><+><->
-  
-  },
-)
+})
 
 export default settingsSlice.reducer
 export const { setFontSize, setTheme } = settingsSlice.actions

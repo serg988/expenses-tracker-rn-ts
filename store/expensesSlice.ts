@@ -8,17 +8,83 @@ const BACKEND_URL =
 
 type initialState = {
   expenses: Expense[]
+  categories: { id: string; cat: string }[]
   loading: boolean
   error?: string
 }
 
 const initialState: initialState = {
   expenses: [],
+  categories: [],
   loading: false,
   error: '',
 }
 
 let token: string
+
+export const fetchCategories = createAsyncThunk<
+  { id: string; cat: string }[],
+  void,
+  { rejectValue: string; state: { auth: { token: string } } }
+>(
+  'expenses/fetchCategories',
+  async function (_, { getState, rejectWithValue }) {
+    const { auth } = getState()
+    token = auth.token
+    try {
+      const response = await axios.get(
+        BACKEND_URL + '/categories.json?auth=' + token
+      )
+
+      const categories = []
+
+      for (const key in response.data) {
+        const category = {
+          id: key,
+          cat: response.data[key].cat,
+        }
+        categories.push(category)
+      }
+      return categories
+    } catch (error: any) {
+      return rejectWithValue(error.message)
+    }
+  }
+)
+
+export const addNewCategory = createAsyncThunk<
+  // { category: string; id: string },
+  {id: string, cat: string},
+  string,
+  { rejectValue: string }
+>(
+  'expenses/addNewCategory',
+  async function (category: string, { rejectWithValue }) {
+    try {
+      const response = await axios.post(
+        BACKEND_URL + '/categories.json?auth=' + token,
+        { cat: category }
+      )
+      return { cat: category, id: response.data.name }
+      // return category
+    } catch (error: any) {
+      return rejectWithValue(error.message)
+    }
+  }
+)
+
+export const deleteCategory = createAsyncThunk<
+  string,
+  string,
+  { rejectValue: string }
+>('expenses/deleteCategory', async function (id, { rejectWithValue }) {
+  try {
+    await axios.delete(BACKEND_URL + `/categories/${id}.json?auth=` + token)
+    return id
+  } catch (error: any) {
+    return rejectWithValue(error.message)
+  }
+})
 
 export const fetchExpenses = createAsyncThunk<
   Expense[],
@@ -112,6 +178,33 @@ const expensesSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(fetchCategories.pending, (state) => {
+        state.loading = true
+        state.error = ''
+      })
+      .addCase(fetchCategories.fulfilled, (state, action) => {
+        state.categories = action.payload
+        state.loading = false
+        state.error = ''
+      })
+      .addCase(fetchCategories.rejected, (state, action) => {
+        state.error = action.payload
+        state.loading = false
+      })
+
+      .addCase(addNewCategory.pending, (state) => {
+        state.error = ''
+        state.loading = true
+      })
+      .addCase(addNewCategory.fulfilled, (state, action) => {
+        state.categories.unshift(action.payload)
+        state.loading = false
+      })
+      .addCase(addNewCategory.rejected, (state, action) => {
+        state.error = action.payload
+        state.loading = false
+      })
+
       .addCase(fetchExpenses.pending, (state) => {
         state.loading = true
         state.error = ''
@@ -125,6 +218,7 @@ const expensesSlice = createSlice({
         state.error = action.payload
         state.loading = false
       })
+
       .addCase(addNewExpense.pending, (state) => {
         state.error = ''
         state.loading = true

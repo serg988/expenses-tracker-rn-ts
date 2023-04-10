@@ -2,7 +2,7 @@ import { ReactNode, useEffect, useState } from 'react'
 import { Text, View, StyleSheet, Dimensions, Pressable } from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler'
 import Select from '../../components/manageExpense/Select'
-import { CatArrayType, catArray } from '../../constants/categories'
+// import { CatArrayType, catArray } from '../../constants/categories'
 import { COLORS } from '../../constants/styles'
 import { useAppSelector, useAppDispatch } from '../../store/hooks'
 import { getDateMinusDays } from '../../util/date'
@@ -27,6 +27,10 @@ function StatisticsScreen({ navigation }: any) {
   const themeId = useColor()
 
   const expenses = useAppSelector((state) => state.expenses.expenses)
+
+  const categories = useAppSelector((state) => state.expenses.categories)
+
+  const catArray = categories.map(cat=>cat.cat)
 
   useEffect(() => {
     setBars(period)
@@ -75,7 +79,7 @@ function StatisticsScreen({ navigation }: any) {
   }
 
   // Filter by CATEGORY-----------------------------------
-  function getExpensesByCategory(category: CatArrayType, expenses: Expense[]) {
+  function getExpensesByCategory(category: string, expenses: Expense[]) {
     const filteredByCat = expenses.filter((c) => c.category === category)
     return filteredByCat
   }
@@ -89,7 +93,7 @@ function StatisticsScreen({ navigation }: any) {
     return expensesSum
   }
 
-  function pressHandler(cat: CatArrayType) {
+  function pressHandler(cat: string[]) {
     navigation.navigate('MonthlyStatistics', { cat: cat }) //
   }
 

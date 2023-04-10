@@ -8,6 +8,7 @@ import { COLORS } from '../../constants/styles'
 import useColor from '../../hooks/useColor'
 import Select from './Select'
 import { catArray, CatArrayType } from '../../constants/categories'
+import { useAppSelector, useAppDispatch } from '../../store/hooks'
 
 export type SubmitType = {
   id?: string
@@ -30,6 +31,8 @@ function ExpenseForm({
   onSubmit,
   defaultValues,
 }: Props) {
+  const categories = useAppSelector((state) => state.expenses.categories)
+  console.log("🚀 ~ file: ExpenseForm.tsx:35 ~ categories:", categories)
   const themeId = useColor()
   const [input, setInput] = useState({
     amount: {
@@ -137,8 +140,8 @@ function ExpenseForm({
   const formIsInvalid =
     !input.amount.isValid || !input.date.isValid || !input.description.isValid
 
-  const data = catArray.map((cat) => {
-    return { key: cat, value: cat }
+  const data = categories.map((cat) => {
+    return { key: cat.id, value: cat.cat }
   })
 
   const selectDefaultValue = input.category.value

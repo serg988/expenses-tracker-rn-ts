@@ -4,7 +4,7 @@ import { useAppSelector } from '../../hooks/hooks'
 import useColor from '../../hooks/useColor'
 import { COLORS } from '../../constants/styles'
 import { ReactNode, useEffect, useState } from 'react'
-import { catArray, CatArrayType } from '../../constants/categories'
+// import { catArray, CatArrayType } from '../../constants/categories'
 import { monthsArray, MonthsArrayType } from '../../constants/months'
 import { Expense } from '../../types'
 import { getDateMinusDays } from '../../util/date'
@@ -62,7 +62,7 @@ function MonthlyStatisticsScreen({ route }: any) {
   }
 
   // Filter by CATEGORY-----------------------------------
-  function getExpensesByCategory(category: CatArrayType) {
+  function getExpensesByCategory(category: string) {
     const filteredByCat = expenses.filter((c) => c.category === category)
     return filteredByCat
   }
