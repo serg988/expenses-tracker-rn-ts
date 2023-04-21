@@ -54,7 +54,7 @@ export const fetchCategories = createAsyncThunk<
 
 export const addNewCategory = createAsyncThunk<
   // { category: string; id: string },
-  {id: string, cat: string},
+  { id: string; cat: string },
   string,
   { rejectValue: string }
 >(
@@ -65,6 +65,7 @@ export const addNewCategory = createAsyncThunk<
         BACKEND_URL + '/categories.json?auth=' + token,
         { cat: category }
       )
+      console.log({ cat: category, id: response.data.name })
       return { cat: category, id: response.data.name }
       // return category
     } catch (error: any) {
@@ -80,6 +81,7 @@ export const deleteCategory = createAsyncThunk<
 >('expenses/deleteCategory', async function (id, { rejectWithValue }) {
   try {
     await axios.delete(BACKEND_URL + `/categories/${id}.json?auth=` + token)
+    console.log('🚀 ~ file: expensesSlice.ts:88 ~ id:', id)
     return id
   } catch (error: any) {
     return rejectWithValue(error.message)
@@ -198,6 +200,10 @@ const expensesSlice = createSlice({
       })
       .addCase(addNewCategory.fulfilled, (state, action) => {
         state.categories.unshift(action.payload)
+        console.log(
+          '🚀 ~ file: expensesSlice.ts:201 ~ .addCase ~ state.categories:',
+          state.categories
+        )
         state.loading = false
       })
       .addCase(addNewCategory.rejected, (state, action) => {
@@ -231,6 +237,23 @@ const expensesSlice = createSlice({
         state.error = action.payload
         state.loading = false
       })
+
+      // ----------DELETE CAT-------------
+      .addCase(deleteCategory.pending, (state, action) => {
+        state.loading = true
+      })
+      .addCase(deleteCategory.fulfilled, (state, action) => {
+        state.categories = state.categories.filter(
+          (cat) => cat.id !== action.payload
+        )
+        state.loading = false
+      })
+      .addCase(deleteCategory.rejected, (state, action) => {
+        state.error = action.payload
+        state.loading = false
+      })
+      // --------------------
+
       .addCase(updateExpense.pending, (state, action) => {
         state.loading = true
       })

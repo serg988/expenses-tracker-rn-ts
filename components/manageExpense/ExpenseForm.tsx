@@ -32,7 +32,6 @@ function ExpenseForm({
   defaultValues,
 }: Props) {
   const categories = useAppSelector((state) => state.expenses.categories)
-  console.log("🚀 ~ file: ExpenseForm.tsx:35 ~ categories:", categories)
   const themeId = useColor()
   const [input, setInput] = useState({
     amount: {

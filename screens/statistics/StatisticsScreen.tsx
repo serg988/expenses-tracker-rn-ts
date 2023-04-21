@@ -30,7 +30,7 @@ function StatisticsScreen({ navigation }: any) {
 
   const categories = useAppSelector((state) => state.expenses.categories)
 
-  const catArray = categories.map(cat=>cat.cat)
+  const catArray = categories.map((cat) => cat.cat)
 
   useEffect(() => {
     setBars(period)
@@ -65,8 +65,6 @@ function StatisticsScreen({ navigation }: any) {
     })
   }
 
-  
-
   // Filter for last SOME days
   function filterExpensesForPeriod(days = 0) {
     const recentExpenses = expenses.filter((expense) => {
@@ -93,7 +91,7 @@ function StatisticsScreen({ navigation }: any) {
     return expensesSum
   }
 
-  function pressHandler(cat: string[]) {
+  function pressHandler(cat: string) {
     navigation.navigate('MonthlyStatistics', { cat: cat }) //
   }
 

@@ -16,6 +16,11 @@ import Button from '../components/ui/Button'
 const SettingsScreen = ({ navigation }: any) => {
   const colorTheme = useAppSelector((state) => state.settings.themeId)
   const categories = useAppSelector((state) => state.expenses.categories)
+  const expenses = useAppSelector((state) => state.expenses.expenses)
+  // console.log(
+  //   '🚀 ~ file: SettingsScreen.tsx:20 ~ SettingsScreen ~ expenses:',
+  //   expenses
+  // )
   const themeId = useColor()
   const dispatch = useAppDispatch()
   const [value, setValue] = useState<SetStateAction<number>>(colorTheme)
@@ -70,16 +75,14 @@ const SettingsScreen = ({ navigation }: any) => {
   const data = categories.map((cat) => {
     return { key: cat.id, value: cat.cat }
   })
-  console.log("🚀 ~ file: SettingsScreen.tsx:73 ~ data ~ data:", data)
 
   function selectHandler() {
-     
     if (category !== '-NSgC2DzWa9srfjdgKXj') {
       const catName = (categories?.filter((cat) => cat.id === category)[0]).cat
-      console.log(
-        '🚀 ~ file: SettingsScreen.tsx:82 ~ selectHandler ~ catName:',
-        catName
-      )
+      // console.log(
+      //   '🚀 ~ file: SettingsScreen.tsx:82 ~ selectHandler ~ catName:',
+      //   catName
+      // )
 
       return Alert.alert(
         'Точно?',
@@ -88,17 +91,37 @@ const SettingsScreen = ({ navigation }: any) => {
           {
             text: 'Да',
             onPress: () => {
-              dispatch(deleteCategory(category))
+              // console.log(category)
+              checkIfCatIsNotEmpty()
             },
           },
           {
             text: 'Нет',
-            onPress: () => navigation.goBack(),
+            onPress: () => navigation.navigate('Settings'),
           },
         ]
       )
     }
+  }
+
+  function checkIfCatIsNotEmpty() {
     
+    const catName = (categories?.filter((cat) => cat.id === category)[0]).cat
+    console.log(
+      '🚀 ~ file: SettingsScreen.tsx:115 ~ checkIfCatIsNotEmpty ~ catName:',
+      catName
+    )
+
+    if (expenses?.some((e) => e.category === catName)) {
+      Alert.alert(
+        'Невозможно',
+        `Сначала удалите все расходы в категории ${catName}`
+      )
+    } else {
+      dispatch(deleteCategory(category))
+      setCategory('-NSgC2DzWa9srfjdgKXj')
+      navigation.goBack()
+    }
   }
 
   function addCatSubmitHandler() {
@@ -123,17 +146,17 @@ const SettingsScreen = ({ navigation }: any) => {
         />
         <RadioButton.Item
           color={COLORS(themeId).accent500}
-          label='2'
+          label='Салатная'
           value={'1'}
         />
         <RadioButton.Item
           color={COLORS(themeId).accent500}
-          label='3'
+          label='Бирюзовая'
           value={'2'}
         />
         <RadioButton.Item
           color={COLORS(themeId).accent500}
-          label='4'
+          label='Оранж'
           value={'3'}
         />
       </RadioButton.Group>
